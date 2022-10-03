@@ -10,7 +10,7 @@ const Splash = ({ navigation }) => {
         <Text style={styles.text}>Splash</Text>
         <Button
           title="Move"
-          onPress={() => navigation.navigate('Register')}
+          onPress={() => navigation.navigate('Login')}
         />
       </View>
     </View>

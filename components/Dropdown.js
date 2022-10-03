@@ -4,8 +4,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 import { View, StyleSheet } from 'react-native';
 
 
-const DropdownComponent = ({ data }) => {
-  const [value, setValue] = useState(null);
+const DropdownComponent = ({ data, value, setValue }) => {
   const [isFocus, setIsFocus] = useState(false);
  
   return (
