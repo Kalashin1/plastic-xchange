@@ -4,13 +4,19 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Splash from './pages/Splash';
 import ForgotPassword from './pages/Forgot-Password';
+
+import LoginAgent from './pages/Login-Agent';
+import RegisterAgent from './pages/Register-Agent';
+
+import Splash from './pages/Splash';
 import UserDashboard from './pages/User-Dashboard';
 import UpdateProfile from './pages/Update-Profile';
 import UpdateAddress from './pages/Update-Address';
 import UpdateBankInfo from './pages/Update-BankInfo';
 import UploadPlastic from './pages/UploadPlastic';
+import Profile from './pages/Profile';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -24,9 +30,17 @@ const App = () => {
           options={{title: 'Login'}}
         />
         <Stack.Screen
+          name="Agent-Login"
+          component={LoginAgent}
+        />
+        <Stack.Screen
           name="Register"
           component={Register}
           options={{title: 'Register'}}
+        />
+        <Stack.Screen
+          name="Agent-Register"
+          component={RegisterAgent}
         />
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen
@@ -58,6 +72,11 @@ const App = () => {
           name="Upload-Plastic"
           component={UploadPlastic}
           options={{title: 'Upload Plastic'}}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{title: 'Your Profile'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

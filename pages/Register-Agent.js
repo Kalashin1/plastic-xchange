@@ -3,7 +3,7 @@ import React,{ useState } from 'react';
 import {View, StyleSheet, TextInput, Text, Button} from 'react-native';
 import { baseUrl, storeUserData } from '../helper';
 
-const Register = ({navigation}) => {
+const RegisterAgent = ({navigation}) => {
 
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -16,7 +16,7 @@ const Register = ({navigation}) => {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify({ name, email, username, password, type: 'USER' })
+      body: JSON.stringify({ name, email, username, password, type: 'AGENT' })
     });
 
     if (res.ok) {
@@ -76,14 +76,8 @@ const Register = ({navigation}) => {
         Already have an account? 
         <Text
           style={styles.loginText}
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => navigation.navigate('Agent-Login')}
         > Login</Text>
-      </Text>
-      <Text 
-        style={styles.linkText}
-        onPress={() => navigation.navigate('Agent-Register')}
-      >
-        I am an agent
       </Text>
     </View>
   );
@@ -91,8 +85,8 @@ const Register = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#efe',
+    flex: 2,
+    background: 'maroon',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -108,11 +102,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontWeight: 'b',
   },
-  linkText: {
-    marginVertical: 20,
-    color: 'blue',
-    fontSize: 18
-  },
   loginText: {
     color: 'blue',
     paddingLeft: 5,
@@ -126,4 +115,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Register;
+export default RegisterAgent;

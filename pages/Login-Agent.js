@@ -4,19 +4,18 @@ import {View, StyleSheet, TextInput, Text, Button} from 'react-native';
 import { baseUrl, storeUserData } from '../helper';
 // import {Input} from '@rneui/themed';
 
-const Login = ({navigation}) => {
+const LoginAgent = ({navigation}) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const login = async () => {
-    console.log({ email, password, type: 'USER' })
     const res = await fetch(`${baseUrl}/login`, {
       headers: {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify({ email, password, type: 'USER' })
+      body: JSON.stringify({ email, password, type: 'AGENT' })
     })
 
     if (res.ok) {
@@ -73,24 +72,22 @@ const Login = ({navigation}) => {
         onPress={() => login()}
       />
       </View>
-      <Text style={styles.loginTextParent}>
-        Don't have an account?
-        <Text
-          style={styles.loginText}
-          onPress={() => navigation.navigate('Register')}
-        > Register</Text>
-      </Text>
-      <Text 
-        style={styles.linkText}
-        onPress={() => navigation.navigate('Agent-Login')}
-      >I am an agent</Text>
+      <View>
+        <Text style={styles.loginTextParent}>
+          Don't have an account?
+          <Text
+            style={styles.loginText}
+            onPress={() => navigation.navigate('Agent-Register')}
+          > Register</Text>
+        </Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -98,6 +95,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 8,
     borderWidth: 1,
+    paddingHorizontal: 15,
     width: 300,
     borderColor: '#333',
   },
@@ -106,14 +104,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontWeight: 'b',
   },
-  linkText: {
-    marginVertical: 20,
-    color: 'blue',
-    fontSize: 18
-  },
   loginText: {
     color: 'blue',
-    padding: 5,
+    paddingLeft: 5,
   },
   loginTextParent: {
     marginTop: 20,
@@ -123,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default LoginAgent;

@@ -3,15 +3,22 @@ import React from 'react';
 import {View, StyleSheet, Text, Button} from 'react-native';
 // import {Input} from '@rneui/themed';
 
+const moveAway = (navigate) => {
+  setTimeout(() => {
+    navigate('Register')
+  }, 500)
+}
+
 const Splash = ({ navigation }) => {
+  moveAway(navigation.navigate);
   return (
     <View style={styles.container}>
       <View style={styles.container}>
         <Text style={styles.text}>Splash</Text>
-        <Button
+        {/* <Button
           title="Move"
           onPress={() => navigation.navigate('Login')}
-        />
+        /> */}
       </View>
     </View>
   );
