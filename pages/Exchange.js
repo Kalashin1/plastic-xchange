@@ -1,12 +1,14 @@
 import React, { useState, useEffect} from "react";
-import { StyleSheet, View, Text, Touchable } from "react-native";
-import TransactionComponent from "../components/Transaction-Component";
+import { StyleSheet, View, Text } from "react-native";
 import Card from "../components/Card";
 import { getUser, retrieveData, getUserExchanges } from "../helper";
 
-const UserDashboard = ({ navigation }) => {
+const PlasticExchange = ({  route, navigation }) => {
   const [user, setUser] = useState();
   const [exchanges, setExchanges] = useState();
+
+  const { id } = route.params;
+  console.log(id)
 
   useEffect(() => {
     const getData = async () => {
@@ -29,13 +31,11 @@ const UserDashboard = ({ navigation }) => {
     <View style={styles.container}>
       <Text>Hello Name</Text>
       <Card />
-      <Card />
-      <TransactionComponent />
     </View>
   )
 }
 
-export default UserDashboard;
+export default PlasticExchange;
 
 const styles = StyleSheet.create({
   container: {

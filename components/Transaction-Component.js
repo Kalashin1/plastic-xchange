@@ -3,20 +3,20 @@ import { View, Text, StyleSheet } from "react-native";
 
 const TransactionComponent = ({}) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} >
       <Text style={styles.headerText}>Your Recent Transactions</Text>
       <View style={styles.rowWrapper}>
         <View style={styles.tableRow}>
-        <Text style={styles.text}>PPI</Text>
-        <Text style={styles.text}></Text>
-        <Text style={styles.text}>N 25</Text>
+          <Text style={styles.text}>PPI</Text>
+          <Text style={styles.text}></Text>
+          <Text style={styles.text}>N 25</Text>
+        </View>
+        <View style={styles.tableRow}>
+          <Text style={styles.text}>4Kg</Text>
+          <Text style={styles.text}>2/2/22</Text>
+          <Text style={styles.text}>2/2/22</Text>
+        </View>
       </View>
-      <View style={styles.tableRow}>
-        <Text style={styles.text}>4Kg</Text>
-        <Text style={styles.text}>2/2/22</Text>
-        <Text style={styles.text}>2/2/22</Text>
-      </View>
-    </View>
     </View>
   )
 }
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingHorizontal: 14,
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 16
   }
 })

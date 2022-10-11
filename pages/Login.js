@@ -32,7 +32,7 @@ const Login = ({navigation}) => {
         await storeUserData(user._id, token);
         if (user.location.country !== null) {
           if (user.bankInfo.bank !== null ) {
-            navigation.navigate('Profile');
+            navigation.navigate('Dashboard');
           } else {
             navigation.navigate('Update-Bank');
           }
@@ -47,31 +47,31 @@ const Login = ({navigation}) => {
     <View style={styles.container}>
       <Text>Login to your account</Text>
       <View>
-      <Text style={styles.text}>Email</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Your Email"
-        defaultValue={email}
-        onChangeText={v => setEmail(v)}
-      />
-      <Text style={styles.text}>Password</Text>
-      <TextInput
-        secureTextEntry={true}
-        style={styles.input}
-        defaultValue={password}
-        onChangeText={v => setPassword(v)}
-        placeholder="Enter Your Password"
-      />
-      <Text 
-        style={styles.text}
-        onPress={() => navigation.navigate('ForgotPassword')}
-      >
-        Forgot Password ?
-      </Text>
-      <Button
-        title="Login"
-        onPress={() => login()}
-      />
+        <Text style={styles.text}>Email</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter Your Email"
+          defaultValue={email}
+          onChangeText={v => setEmail(v)}
+        />
+        <Text style={styles.text}>Password</Text>
+        <TextInput
+          secureTextEntry={true}
+          style={styles.input}
+          defaultValue={password}
+          onChangeText={v => setPassword(v)}
+          placeholder="Enter Your Password"
+        />
+        <Text 
+          style={styles.text}
+          onPress={() => navigation.navigate('ForgotPassword')}
+        >
+          Forgot Password ?
+        </Text>
+        <Button
+          title="Login"
+          onPress={() => login()}
+        />
       </View>
       <Text style={styles.loginTextParent}>
         Don't have an account?

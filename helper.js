@@ -88,45 +88,47 @@ export const createPlasticExchange = async (payload, token) => {
   }
 }
 
-// const res = await fetch(``, {
-//   headers: {
-//     'Content-Type': 'application/json',
-//     Authorization: `Bearer ${token}`
-//   },
-//   method: 'POST',
-//   body: payload
-// })
+export const getUserExchanges = async (token, username) => {
+  const res = await fetch(`${baseUrl}/user/projects/${username}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
 
-// if (res.ok) {
-//   const data = await res.json();
+  if (res.ok) {
+    const data = await res.json();
+    if (data.error) {
+      return [null, data.message]
+    } else {
+      return [data.data, null]
+    }
+  } else {
+    return [null, await res.json()]
+  }
+}
 
-//   if (data.error) {
-//   return [null, data.message];
-// } else {
-//   return [data.data, null];
-// }
-// } else {
-//   console.log(await res.json())
-// }
+export const widthdraw = async (token, amount, userId) => {
+  // console.log({ amount, userId })
+  const res = await fetch(`${baseUrl}/withdraw`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    method: 'POST',
+    body: JSON.stringify({ amount, userId })
+  })
 
-// const res = await axios({
-//   url: `${baseUrl}/project`,
-//   method: 'POST',
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//   },
-//   data: payload
-// });
+  if (res.ok) {
+    const data = await res.json();
+    // console.log(data)
 
-// if (res.status == 200 | 201) {
-//   const data = res.data;
-
-//   if (data.error) {
-//     return [null, data.message];
-//   } else {
-//     return [data.data, null];
-//   }
-// } else {
-//   console.log(res.statusText)
-//   return [null, "something happened"]
-// }
+    if (data.error) {
+      // console.log(data.message);
+      return [null, data.message]
+    } else {
+      return [data.data, null]
+    }
+  } else {
+    return [null, await res.json()]
+  }
+}

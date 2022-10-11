@@ -10,12 +10,17 @@ import LoginAgent from './pages/Login-Agent';
 import RegisterAgent from './pages/Register-Agent';
 
 import Splash from './pages/Splash';
+
 import UserDashboard from './pages/User-Dashboard';
+import Profile from './pages/Profile';
+import Withdrawal from './pages/Withdraw';
+
 import UpdateProfile from './pages/Update-Profile';
 import UpdateAddress from './pages/Update-Address';
 import UpdateBankInfo from './pages/Update-BankInfo';
+
 import UploadPlastic from './pages/UploadPlastic';
-import Profile from './pages/Profile';
+import PlasticExchange from './pages/Exchange';
 
 
 const Stack = createNativeStackNavigator();
@@ -77,6 +82,15 @@ const App = () => {
           name="Profile"
           component={Profile}
           options={{title: 'Your Profile'}}
+        />
+         <Stack.Screen
+          name="Withdraw"
+          component={Withdrawal}
+        />
+         <Stack.Screen
+          name="Plastic-Exchange"
+          component={PlasticExchange}
+          initialParams={{ id: 200 }}
         />
       </Stack.Navigator>
     </NavigationContainer>
