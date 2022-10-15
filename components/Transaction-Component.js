@@ -1,22 +1,24 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { color5, formatDate, formatter } from "../helper";
 
-const TransactionComponent = ({}) => {
+const TransactionComponent = ({ viewExchange, platType, weight, amount, date, status }) => {
   return (
     <View style={styles.container} >
-      <Text style={styles.headerText}>Your Recent Transactions</Text>
-      <View style={styles.rowWrapper}>
-        <View style={styles.tableRow}>
-          <Text style={styles.text}>PPI</Text>
-          <Text style={styles.text}></Text>
-          <Text style={styles.text}>N 25</Text>
+      <TouchableOpacity onPress={() => viewExchange(200)}>
+        <View style={styles.rowWrapper}>
+            <View style={styles.tableRow}>
+              <Text style={styles.text}>{ platType }</Text>
+              <Text style={styles.text}></Text>
+              <Text style={styles.text}>N { formatter.format(amount) }</Text>
+            </View>
+            <View style={styles.tableRow}>
+            <Text style={styles.text}>{ weight } Kg</Text>
+            <Text style={styles.text}>{ formatDate(date)}</Text>
+            <Text style={styles.text}>{ status }</Text>
+          </View>
         </View>
-        <View style={styles.tableRow}>
-          <Text style={styles.text}>4Kg</Text>
-          <Text style={styles.text}>2/2/22</Text>
-          <Text style={styles.text}>2/2/22</Text>
-        </View>
-      </View>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -28,11 +30,11 @@ const styles = StyleSheet.create({
     // flex: 1,
     padding: 20,
     justifyContent: "space-between",
-    marginVertical: 10,
+    marginVertical: 1,
   },
   rowWrapper: {
     borderRadius: 10,
-    backgroundColor: 'darkgreen',
+    backgroundColor: color5,
   },
   tableRow: {
     flexDirection: 'row',

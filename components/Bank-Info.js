@@ -1,16 +1,16 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-const BankCard = () => {
+const BankCard = ({ bank, accountNo }) => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Bank</Text>
-        <Text style={styles.text}>UBA</Text>
+        <Text style={styles.text}>{ bank }</Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Account Number</Text>
-        <Text style={styles.text}>4979391390</Text>
+        <Text style={styles.text}>{ accountNo }</Text>
       </View>
     </View>
   )

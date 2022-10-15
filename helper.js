@@ -1,6 +1,24 @@
 // import { MMKV } from "react-native-mmkv";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios"; 
+
+export const color5 = '#172815';
+export const color4 = '#3E5622';
+export const color3 = '#709255';
+export const color2 = '#95B46A';
+export const color1 = '#C1FFBC';
+
+export const formatDate = (date) => {
+  let _date = new Date(date);
+  const day = _date.getDate();
+  const month = _date.getMonth()
+  const year = _date.getFullYear()
+  return `${day}/${month}/${year}`;
+}
+
+export const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+})
 
 export const baseUrl = 'https://api.plasticxcange.com'
 // export const storage = new MMKV();

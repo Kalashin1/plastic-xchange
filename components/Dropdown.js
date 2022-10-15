@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
 import { View, StyleSheet } from 'react-native';
+import { color1, color3, color5 } from '../helper';
 
 
 const DropdownComponent = ({ data, value, setValue }) => {
@@ -11,7 +12,7 @@ const DropdownComponent = ({ data, value, setValue }) => {
     <View style={SelectStyles.container}>
     <Dropdown
       // eslint-disable-next-line react-native/no-inline-styles
-      style={[SelectStyles.dropdown, isFocus && {borderColor: 'blue'}]}
+      style={[SelectStyles.dropdown, isFocus && {borderColor: color5 }]}
       placeholderStyle={SelectStyles.placeholderStyle}
       selectedTextStyle={SelectStyles.selectedTextStyle}
       inputSearchStyle={SelectStyles.inputSearchStyle}
@@ -38,22 +39,23 @@ const DropdownComponent = ({ data, value, setValue }) => {
 
 const SelectStyles = StyleSheet.create({
   container: {
-    marginVertical: 10,
+    margin: 10,
     width: 300,
   },
   dropdown: {
     height: 50,
-    borderColor: 'gray',
-    borderWidth: 0.5,
-    borderRadius: 8,
+    borderColor: color5,
+    borderWidth: 2,
+    borderRadius: 15,
     paddingHorizontal: 8,
+    backgroundColor: color1,
   },
   icon: {
     marginRight: 5,
   },
   label: {
     position: 'absolute',
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     left: 22,
     top: 8,
     zIndex: 999,

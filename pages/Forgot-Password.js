@@ -1,16 +1,26 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import {View, StyleSheet, TextInput, Text, Button} from 'react-native';
-// import {Input} from '@rneui/themed';
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import Input from '../components/Input';
+import Button from '../components/Button';
+import HeaderText from '../components/Header-Text';
 
 const ForgotPassword = ({navigation}) => {
+  const [email, setEmail] = useState();
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Email</Text>
-      <TextInput style={styles.input} placeholder="Enter Your Email" />
+      <HeaderText
+        text="Reset Your Password"
+      />
+      <Input
+        label="Email"
+        defaultV={email}
+        handleChange={setEmail}
+        placeholder="johndoe@gmail.com"
+      />
       <Button
-        title="Reset My Password"
-        onPress={() => navigation.navigate('Login')}
+        label="Reset My Password"
+        onPressHandler={() => navigation.navigate('Login')}
       />
     </View>
   );
@@ -21,6 +31,7 @@ const styles = StyleSheet.create({
     flex: 2,
     background: 'maroon',
     justifyContent: 'center',
+    backgroundColor: '#fff',
     alignItems: 'center',
   },
   input: {

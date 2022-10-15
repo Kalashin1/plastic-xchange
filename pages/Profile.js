@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, ScrollView, TouchableOpacity } from "react-native";
 import ProfileCard from "../components/Profile-Card";
 import BankCard from "../components/Bank-Info";
+import HeaderText from "../components/Header-Text";
 import AddressCard from "../components/Address-Card";
 import { getUser, retrieveData } from "../helper";
 
@@ -24,23 +25,58 @@ const Profile = ({ navigation }) => {
     fetchUser();
   }, [])
   return (
-    <View style={styles.container}>
-      <Text>Update Profile</Text>
-      <ProfileCard />
-      <Text>Update Bank Info</Text>
-      <BankCard />
-      <Text>Update Address</Text>
-      <AddressCard />
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+
+        <View style={styles.textContainer}>
+          <HeaderText text="profile" />
+        </View>
+        <TouchableOpacity>
+          <ProfileCard 
+            email={user?.email} 
+            name={user?.name} 
+            username={user?.username}
+          />
+        </TouchableOpacity>
+
+        <View style={styles.textContainer}>
+          <HeaderText text="Bank details" />
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Update-Bank')}>
+          <BankCard
+            accountNo={user?.bankInfo?.accountNo}
+            bank={user?.bankInfo?.bank}
+          />
+        </TouchableOpacity>
+
+        <View style={styles.textContainer}>
+          <HeaderText text="Address" />
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Update-Address')}>
+          <AddressCard 
+            country={user?.location?.country}
+            state={user?.location?.state}
+            zip={user?.location?.zip}
+            street={user?.location?.street}
+          />
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   )
 };
 
 export default Profile;
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    backgroundColor: '#fff'
+  },
   container: {
     flex: 1,
     paddingTop: 30,
-    backgroundColor: '#efef'
-  }
+    backgroundColor: '#fff'
+  },
+  textContainer: {
+    marginLeft: 20
+  },
 })

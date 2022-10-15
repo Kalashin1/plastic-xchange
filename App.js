@@ -2,6 +2,8 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/Forgot-Password';
@@ -22,6 +24,14 @@ import UpdateBankInfo from './pages/Update-BankInfo';
 import UploadPlastic from './pages/UploadPlastic';
 import PlasticExchange from './pages/Exchange';
 
+
+const bottomNavigation = createBottomTabNavigator()
+
+const Component = () => (
+  <bottomNavigation.Navigator>
+    <bottomNavigation.Screen name="Dashboard" component={UserDashboard} />
+  </bottomNavigation.Navigator>
+)
 
 const Stack = createNativeStackNavigator();
 

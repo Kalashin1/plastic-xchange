@@ -1,24 +1,24 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-const AddressCard = () => {
+const AddressCard = ({ street, zip, state, country }) => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Address</Text>
-        <Text style={styles.text}>No 32 Worlu Street, Eneka</Text>
+        <Text style={styles.textSmall}>{ street }</Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Zip Code</Text>
-        <Text style={styles.text}>012345</Text>
+        <Text style={styles.textSmall}>{ zip }</Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>State</Text>
-        <Text style={styles.text}>Rivers</Text>
+        <Text style={styles.textSmall}>{ state }</Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Country</Text>
-        <Text style={styles.text}>Nigeria</Text>
+        <Text style={styles.textSmall}>{ country }</Text>
       </View>
     </View>
   )
@@ -45,4 +45,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff'
   },
+  textSmall: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#fff'
+  }
 })

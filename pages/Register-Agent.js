@@ -1,14 +1,21 @@
 /* eslint-disable prettier/prettier */
 import React,{ useState } from 'react';
-import {View, StyleSheet, TextInput, Text, Button} from 'react-native';
-import { baseUrl, storeUserData } from '../helper';
+import {View, StyleSheet, TextInput, Text, TouchableOpacity} from 'react-native';
+import { baseUrl, storeUserData, color1, color5 } from '../helper';
+import HeaderText from '../components/Header-Text';
+import Button from '../components/Button';
+import Input from '../components/Input';
 
-const RegisterAgent = ({navigation}) => {
+const Register = ({navigation}) => {
 
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  handlePress = () => {
+    navigation.navigate('Dashboard')
+  }
 
   const createAccount = async () => {
     const res = await fetch(`${baseUrl}/create-account`, {
@@ -16,7 +23,7 @@ const RegisterAgent = ({navigation}) => {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify({ name, email, username, password, type: 'AGENT' })
+      body: JSON.stringify({ name, email, username, password, type: 'USER' })
     });
 
     if (res.ok) {
@@ -36,41 +43,30 @@ const RegisterAgent = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text>Create your account</Text>
+      <HeaderText text="Create your account" />
       <View>
-        <Text style={styles.text}>Name</Text>
-        <TextInput
-          style={styles.input} 
-          placeholder="Enter Your Full Name"
-          defaultValue={name}
-          onChangeText={nv => setName(nv)}
+        <Input
+          label="Full Name"
+          defaultV={name}
+          handleChange={setName}
+          placeholder="John Doe"
+        />
+        <Input
+          label="Email"
+          defaultV={email}
+          handleChange={setEmail}
+          placeholder="johndoe@gmail.com"
+        />
+        <Input
+          label="password"
+          defaultV={password}
+          handleChange={setPassword}
+          placeholder="*******"
         />
 
-        <Text style={styles.text}>Username</Text>
-        <TextInput 
-          style={styles.input} 
-          placeholder="Enter Your Username"
-          defaultValue={username}
-          onChangeText={nv => setUsername(nv)}
-        />
+       <Button label="Create Account" onPressHandler={() => console.log("Hello world")} />
 
-        <Text style={styles.text}>Email</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Your Email"
-          defaultValue={email}
-          onChangeText={nv => setEmail(nv)}
-        />
-
-        <Text style={styles.text}>Password</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          placeholder="Enter Your Password"
-          defaultValue={password}
-          onChangeText={nv => setPassword(nv)}
-        />
-        <Button title="Register" onPress={() => createAccount()} />
+        
       </View>
       <Text style={styles.loginTextParent}>
         Already have an account? 
@@ -79,40 +75,42 @@ const RegisterAgent = ({navigation}) => {
           onPress={() => navigation.navigate('Agent-Login')}
         > Login</Text>
       </Text>
+      <Text 
+        style={styles.linkText}
+        onPress={() => navigation.navigate('Register')}
+      >
+        I have a household
+      </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
-    background: 'maroon',
+    flex: 1,
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  input: {
-    marginVertical: 10,
-    borderRadius: 8,
-    borderWidth: 0.5,
-    width: 300,
-    borderColor: '#333',
   },
   text: {
     textAlign: 'left',
     marginVertical: 10,
+    marginLeft: 5,
     fontWeight: 'b',
   },
+  linkText: {
+    marginVertical: 20,
+    fontSize: 16,
+  },
   loginText: {
-    color: 'blue',
+    color: color5,
     paddingLeft: 5,
+    fontWeight: 'bold', 
   },
   loginTextParent: {
     marginTop: 20,
-    // backgroundColor: 'red',
-    // padding: 15,
-    // borderRadius: 10
   },
 });
 
 
-export default RegisterAgent;
+export default Register;

@@ -1,6 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React,{ useState } from 'react';
-import {View, StyleSheet, TextInput, Text, Button} from 'react-native';
+import {View, StyleSheet, TextInput, Text } from 'react-native';
+import Input from '../components/Input';
+import HeaderText from '../components/Header-Text';
+import Button from '../components/Button';
 import { baseUrl, retrieveData } from '../helper'
 
 const data = [
@@ -34,7 +37,8 @@ const UpdateBankInfo = ({navigation}) => {
           console.log(data.message)
         } else {
           console.log(data.message);
-          navigation.navigate('Update-Profile');
+          alert(data.message)
+          navigation.navigate('Profile');
         }
       }
     }
@@ -42,25 +46,27 @@ const UpdateBankInfo = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text>Update Your Bank Info</Text>
+
       <View>
-        <Text style={styles.text}>Bank</Text>
-        <TextInput 
-          style={styles.input} 
-          placeholder="Enter Your Bank"
-          defaultValue={bank}
-          onChangeText={v => setBank(v)}
+        <HeaderText text="Bank details" />
+      </View>
+      <View>
+        <Input 
+          defaultV={bank}
+          label="Bank"
+          placeholder="UBA"
+          handleChange={setBank}
+
         />
 
-        <Text style={styles.text}>Account Number</Text>
-        <TextInput 
-          style={styles.input} 
-          placeholder="Enter Your Account Number"
-          defaultValue={accountNo}
-          onChangeText={v => setAccountNo(parseInt(v))}
+        <Input
+          defaultV={accountNo}
+          label="Account Number"
+          placeholder="0123456789"
+          handleChange={setAccountNo}
         />
 
-        <Button title="UpdateBankInfo" onPress={() => updateBankInfo()} />
+        <Button label="Update" onPressHandler={() => updateBankInfo()} />
       </View>
     </View>
   );
@@ -69,7 +75,7 @@ const UpdateBankInfo = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    background: 'maroon',
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -84,7 +90,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginVertical: 10,
     fontWeight: 'b',
-  },
+  }
 });
 
 

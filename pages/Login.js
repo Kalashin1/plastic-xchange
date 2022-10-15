@@ -1,15 +1,27 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import {View, StyleSheet, TextInput, Text, Button} from 'react-native';
-import { baseUrl, storeUserData } from '../helper';
-// import {Input} from '@rneui/themed';
+import {View, StyleSheet, TextInput, Text } from 'react-native';
+import { baseUrl, color5, storeUserData } from '../helper';
+import HeaderText from '../components/Header-Text';
+import Button from '../components/Button';
+import Input from '../components/Input';
+
+const _Error = {
+  email: "No user with that email",
+  password: "Incorrect password"
+}
 
 const Login = ({navigation}) => {
 
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false)
+
+  const [passwordError, setPasswordError] = useState(false)
   const [password, setPassword] = useState('');
 
   const login = async () => {
+    setEmailError(false)
+    setPasswordError(false)
     console.log({ email, password, type: 'USER' })
     const res = await fetch(`${baseUrl}/login`, {
       headers: {
@@ -23,8 +35,14 @@ const Login = ({navigation}) => {
       const data = await res.json();
 
       if (data.error) {
-        // handle error
-        console.log(data.message)
+        const error = data.message
+        if (error.email) {
+          console.log(data.message.email)
+          setEmailError(true)
+        } else if (error.password) {
+          setPasswordError(true)
+        }
+        
       } else {
         // handle User
         const [user, token] = data.data
@@ -32,7 +50,7 @@ const Login = ({navigation}) => {
         await storeUserData(user._id, token);
         if (user.location.country !== null) {
           if (user.bankInfo.bank !== null ) {
-            navigation.navigate('Dashboard');
+            navigation.navigate('Profile');
           } else {
             navigation.navigate('Update-Bank');
           }
@@ -45,22 +63,26 @@ const Login = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text>Login to your account</Text>
+      <HeaderText
+        text="Login to your account"
+      />
       <View>
-        <Text style={styles.text}>Email</Text>
-        <TextInput
-          style={styles.input}
+        <Input
           placeholder="Enter Your Email"
-          defaultValue={email}
-          onChangeText={v => setEmail(v)}
+          defaultV={email}
+          label="Email"
+          showError={emailError}
+          handleChange={setEmail}
+          errorMessage="Incorrect email"
         />
-        <Text style={styles.text}>Password</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          defaultValue={password}
-          onChangeText={v => setPassword(v)}
-          placeholder="Enter Your Password"
+        <Input
+          placeholder="********"
+          defaultV={password}
+          label="Password"
+          handleChange={setPassword}
+          showError={passwordError}
+          isPassword={true}
+          errorMessage="Incorrect Password"
         />
         <Text 
           style={styles.text}
@@ -69,8 +91,8 @@ const Login = ({navigation}) => {
           Forgot Password ?
         </Text>
         <Button
-          title="Login"
-          onPress={() => login()}
+          label="Login"
+          onPressHandler={login}
         />
       </View>
       <Text style={styles.loginTextParent}>
@@ -91,15 +113,9 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  input: {
-    marginVertical: 10,
-    borderRadius: 8,
-    borderWidth: 1,
-    width: 300,
-    borderColor: '#333',
   },
   text: {
     textAlign: 'left',
@@ -108,18 +124,15 @@ const styles = StyleSheet.create({
   },
   linkText: {
     marginVertical: 20,
-    color: 'blue',
+    color: color5,
     fontSize: 18
   },
   loginText: {
-    color: 'blue',
+    color: color5,
     padding: 5,
   },
   loginTextParent: {
     marginTop: 20,
-    // backgroundColor: 'red',
-    // padding: 15,
-    // borderRadius: 10
   },
 });
 

@@ -1,6 +1,9 @@
 /* eslint-disable prettier/prettier */
-import React, { useState} from 'react';
-import {View, StyleSheet, TextInput, Text, Button} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, TextInput, Text} from 'react-native';
+import HeaderText from '../components/Header-Text';
+import Input from '../components/Input';
+import Button from '../components/Button';
 import DropdownComponent from '../components/Dropdown';
 import { baseUrl, retrieveData } from '../helper';
 
@@ -43,7 +46,8 @@ const UpdateAddress = ({navigation}) => {
           console.log(data.message);
         } else {
           console.log(data.message);
-          navigation.navigate('Update-Bank')
+          alert(data.message)
+          navigation.navigate('Profile')
         }
       } else {
         console.log(await res.json())
@@ -53,21 +57,24 @@ const UpdateAddress = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      
       <View>
-      <Text style={styles.text}>Street</Text>
-      <TextInput 
-        style={styles.input}
-        placeholder="Enter Your Street Address"
-        defaultValue={street}
-        onChangeText={v => setStreet(v)}
+        <HeaderText text="Update Address" />
+      </View>
+
+      <View>
+      <Input
+        label="Street"
+        defaultV={street}
+        handleChange={setStreet}
+        placeholder="No 32 Worlu street"
       />
 
-      <Text style={styles.text}>Zip Code</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Your Zip code"
-        defaultValue={zip}
-        onChangeText={v => setZip(v)}
+      <Input
+        label="Zip code"
+        defaultV={zip}
+        handleChange={setZip}
+        placeholder="123456"
       />
 
       <Text style={styles.text}>State</Text>
@@ -85,8 +92,8 @@ const UpdateAddress = ({navigation}) => {
       />
 
       <Button 
-        title="Register" 
-        onPress={() => updateUserAddress()} 
+        label="Update Address" 
+        onPressHandler={() => updateUserAddress()} 
       />
       </View>
       
@@ -97,7 +104,7 @@ const UpdateAddress = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    background: 'maroon',
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -111,6 +118,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'left',
     marginVertical: 10,
+    marginHorizontal: 12,
     fontWeight: 'b',
   },
 });

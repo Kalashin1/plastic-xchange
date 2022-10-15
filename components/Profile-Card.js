@@ -1,20 +1,20 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-const ProfileCard = () => {
+const ProfileCard = ({ name, email, username }) => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Name</Text>
-        <Text style={styles.text}>John Doe</Text>
+        <Text style={styles.text}>{ name }</Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Email</Text>
-        <Text style={styles.text}>kinanee@yahoo.com</Text>
+        <Text style={styles.text}>{ email }</Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Username</Text>
-        <Text style={styles.text}>kalashin1</Text>
+        <Text style={styles.text}>{ username }</Text>
       </View>
     </View>
   )
