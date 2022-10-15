@@ -18,7 +18,9 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     marginVertical: 10,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'Lato-Bold',
+    textTransform: 'capitalize',
     color: color5,
   }
 })

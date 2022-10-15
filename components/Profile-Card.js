@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import { color5 } from "../helper";
 
 const ProfileCard = ({ name, email, username }) => {
   return (
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     margin: 20,
     padding: 20,
-    backgroundColor: "darkgreen",
+    backgroundColor: color5,
     borderRadius: 10,
   },
   textContainer: {
@@ -38,7 +39,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'Lato-Regular',
     color: '#fff'
   },
 })

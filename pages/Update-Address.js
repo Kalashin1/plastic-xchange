@@ -43,11 +43,11 @@ const UpdateAddress = ({navigation}) => {
   
         if (data.error) {
           // TODO: handle errors
-          console.log(data.message);
+          // console.log(data.message);
         } else {
           console.log(data.message);
           alert(data.message)
-          navigation.navigate('Profile')
+          navigation.navigate('Profile-Screen', { screen: 'Profile' })
         }
       } else {
         console.log(await res.json())
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginVertical: 10,
     marginHorizontal: 12,
-    fontWeight: 'b',
+    fontFamily: 'Lato-Bold',
   },
 });
 

@@ -16,7 +16,7 @@ export default Button;
 const styles = StyleSheet.create({
   registerButtonContainer : {
     justifyContent: 'center',
-    paddingHorizontal: 60,
+    paddingHorizontal: 40,
     marginVertical: 10,
     marginTop: 30,
   },
@@ -25,7 +25,9 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     textAlign: 'center',
     color: '#fff',
+    fontFamily: 'Lato-Black',
     borderRadius: 18,
+    fontSize: 18,
     paddingHorizontal: 20
   },
 })

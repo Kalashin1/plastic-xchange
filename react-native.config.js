@@ -5,7 +5,7 @@ module.exports = {
     ios: {},
     android: {},
   },
-  assets: './assets/fonts',
+  assets: ['./assets/fonts/Lato'],
   dependencies: {
     'react-native-vector-icons': {
       platforms: {

@@ -1,13 +1,13 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { color5 } from "../helper";
+import { color5, formatter } from "../helper";
 
 const Card = ({ header, text, textTwo, headerTwo }) => {
   return (
     <View style={styles.container}>
       <View style={styles.cardWrapper}>
         <Text style={styles.cardText}>{header}</Text>
-        <Text style={styles.cardNum}>{ text }</Text>
+        <Text style={styles.cardNum}>{ formatter.format(text) }</Text>
       </View>
       <View>
         <Text style={styles.cardText}>{ headerTwo }</Text>
@@ -30,12 +30,14 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 18,
     marginVertical: 5,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'Lato-Regular',
     color: '#fff',
   },
   cardNum: {
     fontSize: 14,
-    marginVertical: 5,
+    marginTop: 8,
+    fontFamily: 'Lato-Regular',
     color: '#fff',
   },
   cardWrapper: {

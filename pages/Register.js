@@ -49,7 +49,7 @@ const Register = ({navigation}) => {
         const [user, token] = data.data;
         console.log(user);
         storeUserData(user._id, token);
-        navigation.navigate('Login');
+        navigation.navigate('Auth-Screen', { screen: 'Login' });
       }
     }
   }
@@ -93,12 +93,12 @@ const Register = ({navigation}) => {
 
           
         </View>
-        <Text style={styles.loginTextParent}>
+        <Text 
+          style={styles.loginTextParent}
+          onPress={() => navigation.navigate('Login')}
+        >
           Already have an account? 
-          <Text
-            style={styles.loginText}
-            onPress={() => navigation.navigate('Login')}
-          > Login</Text>
+          <Text style={styles.loginText}> Login</Text>
         </Text>
         <Text 
           style={styles.linkText}
@@ -125,19 +125,21 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginVertical: 10,
     marginLeft: 5,
-    fontWeight: 'b',
+    fontFamily: 'Lato-Regular',
   },
   linkText: {
     marginVertical: 20,
-    fontSize: 16,
+    fontSize: 18,
+    color: 'blue',
+    fontFamily: 'Lato-Regular',
   },
   loginText: {
     color: color5,
     paddingLeft: 5,
-    fontWeight: 'bold', 
   },
   loginTextParent: {
     marginTop: 20,
+    fontFamily: 'Lato-Bold',
   },
 });
 

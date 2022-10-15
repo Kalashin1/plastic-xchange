@@ -17,12 +17,36 @@ export const formatDate = (date) => {
 
 export const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
-  currency: 'USD',
+  currency: 'NGN',
 })
 
 export const baseUrl = 'https://api.plasticxcange.com'
 // export const storage = new MMKV();
 // export const baseUrl = 'http://localhost:4200'
+
+export const editPlasticExchange = async (param, token) => {
+  const res = await fetch(`${baseUrl}/projetc/`, {
+    method: 'PATCH',
+    body: JSON.stringify(param),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  if (res.ok) {
+    const data = await res.json();
+    if (!data.error) {
+      return [data.data, null]
+    } else {
+      return [null, data.message]
+    }
+  } else {
+    const data = await res.json();
+    return [null, data.message]
+  }
+  
+} 
 
 export const storeUserData = async (id, token) => {
   try {
@@ -34,10 +58,23 @@ export const storeUserData = async (id, token) => {
   }
 }
 
+export const saveItem = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+    return [true, null]
+  } catch (error) {
+    return [false, error.message]
+  }
+}
+
 export const retrieveData = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key)
-    if (value !== null) return [value, null]
+    if (value !== null) {
+      return [value, null] 
+    } else {
+      return [null, value]
+    }
   } catch (error) {
     return [null, error.message]
   }
@@ -66,8 +103,45 @@ export const getPlastics = async (token) => {
   }
 }
 
+export const getPlastic = async (token, id) => {
+  const res = await fetch(`${baseUrl}/project/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  if (res.ok) {
+    const data = await res.json();
+
+    if (data.error) {
+      return [null, data.message, res.status]
+    } else {
+      return [data.data, null, res.status]
+    }
+  } else {
+    return [null, await res.json(), res.status]
+  }
+}
+
 export const getUser = async (token) => {
   const res = await fetch(`${baseUrl}/user/token/${token}`)
+
+  if (res.ok) {
+    const data = await res.json();
+    
+    if (data.error) {
+      return [null, data.message]
+    } else {
+      return [data.data, null]
+    }
+  } else {
+    const { message } = await res.json();
+    return [null, message];
+  }
+}
+
+export const getUserById = async (id) => {
+  const res = await fetch(`${baseUrl}/user/id/${id}`)
 
   if (res.ok) {
     const data = await res.json();

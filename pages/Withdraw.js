@@ -1,7 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState} from 'react';
-import {View, StyleSheet, TextInput, Text, Button} from 'react-native';
+import {View, StyleSheet, Text } from 'react-native';
 import { getUser, retrieveData, widthdraw } from '../helper';
+import HeaderText from '../components/Header-Text';
+import Button from '../components/Button';
+import Input from '../components/Input';
 
 // import {Input} from '@rneui/themed';
 
@@ -27,28 +30,29 @@ const Withdrawal = ({navigation}) => {
 
 
   const logWithdrawal = async (amount) => {
-    const [res, err] = await widthdraw(token, amount, user._id)
+    const [res, err] = await widthdraw(token, parseInt(amount), user._id)
     if (!err) {
       console.log('logged')
-      navigation.navigate('Dashboard')
+      navigation.navigate('Profile-Screen', { screen: 'Dashboard' })
     } else {
       console.log(err)
     }
   }
   return (
     <View style={styles.container}>
+      <HeaderText
+        text="Withdraw to your account"
+      />
       <View>
-        <Text style={styles.text}>Amount</Text>
-        <TextInput 
-          style={styles.input} 
-          placeholder="Enter Amount" 
-          value={amount}
-          keyboardType="numeric"
-          onChangeText={v => setAmount(parseInt(v))}
+        <Input
+          placeholder="Enter Amount"
+          defaultV={amount}
+          handleChange={setAmount}
+          label="Amount"
         />
         <Button
-          title="Withdraw"
-          onPress={() => logWithdrawal(amount)}
+          label="Withdraw"
+          onPressHandler={() => logWithdrawal(amount)}
         />
       </View>
     </View>
@@ -58,7 +62,7 @@ const Withdrawal = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    background: 'maroon',
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -73,7 +77,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'left',
     marginVertical: 10,
-    fontWeight: 'b',
+    fontFamily: 'Lato-Bold',
   },
 });
 

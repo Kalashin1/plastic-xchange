@@ -42,7 +42,7 @@ const Profile = ({ navigation }) => {
         <View style={styles.textContainer}>
           <HeaderText text="Bank details" />
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Update-Bank')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Edit-Screen', { screen: 'Update-Bank'})}>
           <BankCard
             accountNo={user?.bankInfo?.accountNo}
             bank={user?.bankInfo?.bank}
@@ -52,7 +52,7 @@ const Profile = ({ navigation }) => {
         <View style={styles.textContainer}>
           <HeaderText text="Address" />
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Update-Address')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Edit-Screen', { screen: 'Update-Address' })}>
           <AddressCard 
             country={user?.location?.country}
             state={user?.location?.state}
@@ -69,7 +69,7 @@ export default Profile;
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   container: {
     flex: 1,

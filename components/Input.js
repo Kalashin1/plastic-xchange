@@ -27,11 +27,13 @@ const Input = ({
     text: {
       textAlign: 'left',
       marginVertical: 10,
+      fontFamily: 'Lato-Bold',
       marginLeft: 10,
     },
     errorMessage: {
       color: 'red',
       marginLeft: 10,
+      fontFamily: 'Lato-Regular',
     },
   })
 

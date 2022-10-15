@@ -5,6 +5,7 @@ import { baseUrl, color5, storeUserData } from '../helper';
 import HeaderText from '../components/Header-Text';
 import Button from '../components/Button';
 import Input from '../components/Input';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const _Error = {
   email: "No user with that email",
@@ -50,12 +51,12 @@ const Login = ({navigation}) => {
         await storeUserData(user._id, token);
         if (user.location.country !== null) {
           if (user.bankInfo.bank !== null ) {
-            navigation.navigate('Profile');
+            navigation.navigate('Profile-Screen', { screen: 'Dashboard' });
           } else {
-            navigation.navigate('Update-Bank');
+            navigation.navigate('Edit-Screen', { screen: 'Update-Bank' });
           }
         } else {
-          navigation.navigate('Update-Address');
+          navigation.navigate('Edit-Screen', { screen: 'Update-Address' });
         }
       }
     }
@@ -67,6 +68,7 @@ const Login = ({navigation}) => {
         text="Login to your account"
       />
       <View>
+      {/* <Icon name="rocket" size={30} color="#900" /> */}
         <Input
           placeholder="Enter Your Email"
           defaultV={email}
@@ -91,16 +93,16 @@ const Login = ({navigation}) => {
           Forgot Password ?
         </Text>
         <Button
-          label="Login"
+          label="Sign in"
           onPressHandler={login}
         />
       </View>
-      <Text style={styles.loginTextParent}>
+      <Text 
+        style={styles.loginTextParent}
+        onPress={() => navigation.navigate('Register')}
+      >
         Don't have an account?
-        <Text
-          style={styles.loginText}
-          onPress={() => navigation.navigate('Register')}
-        > Register</Text>
+        <Text style={styles.loginText}> Register</Text>
       </Text>
       <Text 
         style={styles.linkText}
@@ -119,20 +121,24 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'left',
-    marginVertical: 10,
-    fontWeight: 'b',
+    marginLeft: 20,
+    marginTop: 5,
+    fontFamily: 'Lato-Regular',
   },
   linkText: {
     marginVertical: 20,
-    color: color5,
-    fontSize: 18
+    color: 'blue',
+    fontSize: 18,
+    fontFamily: 'Lato-Bold',
   },
   loginText: {
     color: color5,
     padding: 5,
+    fontFamily: 'Lato-Bold',
   },
   loginTextParent: {
     marginTop: 20,
+    fontFamily: 'Lato-Bold',
   },
 });
 

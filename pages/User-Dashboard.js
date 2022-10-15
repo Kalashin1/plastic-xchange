@@ -1,16 +1,17 @@
 import React, { useState, useEffect} from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, FlatList, ScrollView } from "react-native";
 import TransactionComponent from "../components/Transaction-Component";
 import Card from "../components/Card";
 import HeaderText from "../components/Header-Text";
-import { getUser, retrieveData, getUserExchanges } from "../helper";
+import { getUser, retrieveData, getUserExchanges, formatter } from "../helper";
 
 const UserDashboard = ({ navigation }) => {
   const [user, setUser] = useState();
   const [exchanges, setExchanges] = useState();
+  const [weight, setWeight] = useState()
 
   const viewExchange = (id) => {
-    navigation.navigate("Plastic-Exchange", { id });
+    navigation.navigate("Edit-Screen", { params: { id }, screen: "Plastic-Exchange" });
   }
 
   useEffect(() => {
@@ -22,8 +23,11 @@ const UserDashboard = ({ navigation }) => {
         // console.log(_user)
         const [_exchanges, excErr] = await getUserExchanges(token, _user.username)
         if (!excErr) {
-          console.log(_exchanges[0])
+          // console.log(_exchanges[0])
           setExchanges(_exchanges)
+          const weight = _exchanges.map(e => e.weight).reduce((prev, current) => prev + current);
+          setWeight(weight)
+          // const weightTotal
           // console.log(_exchanges)
         }
       }
@@ -32,42 +36,41 @@ const UserDashboard = ({ navigation }) => {
     getData()
   }, [])
   return (
-    <ScrollView style={styles.scrollContainer}>
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <HeaderText text={`Hello ${user?.name}`} />
-        </View>
-        <Card 
-          header="Total Earnings"
-          text={`N ${user?.balance}`} 
-          headerTwo="Kilogram"
-          textTwo={200}
-        />
-        <Card
-          header="Place Holder"
-          text="Val"
-          headerTwo="Place Holder"
-          textTwo="some other value"
-        
-        />
-
-        <View style={styles.textContainer}>
-          <HeaderText text="Your Recent Transactions" />
-        </View>
-
-        { exchanges && exchanges.map((v, i) => (
-          <TransactionComponent
-            amount={v.price}
-            viewExchange={viewExchange}
-            weight={v.weight}
-            date={v.createdAt}
-            platType={v.type}
-            status={v.status}
-            key={i}
-          />
-        ))}
+    <View style={styles.container}>
+      <View style={styles.textContainer}>
+        <HeaderText text={`Hello ${user?.name}`} />
       </View>
-    </ScrollView>
+      <Card 
+        header="Balance"
+        text={user?.balance} 
+        headerTwo="Kilograms Exchnaged"
+        textTwo={`${weight && new Intl.NumberFormat().format(weight)} kg`}
+      />
+    
+      <View style={styles.textContainer}>
+        <HeaderText text="Your Recent Transactions" />
+      </View>
+
+      <FlatList 
+        data={exchanges}
+        keyExtractor={item => item._id}
+        renderItem={({ item}) => (
+          <TransactionComponent
+            amount={item.price}
+            viewExchange={viewExchange}
+            weight={item.weight}
+            date={item.createdAt}
+            platType={item.type}
+            status={item.status}
+            id={item._id}
+          />
+        )}
+      />
+
+      {/* { exchanges && exchanges.map((item, i) => (
+        
+      ))} */}
+    </View>
   )
 }
 

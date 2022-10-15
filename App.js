@@ -15,6 +15,7 @@ import Splash from './pages/Splash';
 
 import UserDashboard from './pages/User-Dashboard';
 import Profile from './pages/Profile';
+import ProfileView from './pages/Profile_View';
 import Withdrawal from './pages/Withdraw';
 
 import UpdateProfile from './pages/Update-Profile';
@@ -25,86 +26,110 @@ import UploadPlastic from './pages/UploadPlastic';
 import PlasticExchange from './pages/Exchange';
 
 
-const bottomNavigation = createBottomTabNavigator()
+const tabNavigator = createBottomTabNavigator()
 
-const Component = () => (
-  <bottomNavigation.Navigator>
-    <bottomNavigation.Screen name="Dashboard" component={UserDashboard} />
-  </bottomNavigation.Navigator>
+const DashboardScreens = () => (
+  <tabNavigator.Navigator>
+    <tabNavigator.Screen name="Dashboard" component={UserDashboard} />
+    <tabNavigator.Screen name="Profile" component={Profile} />
+    <tabNavigator.Screen name="Withdraw" component={Withdrawal} />
+    <tabNavigator.Screen name="UploadPlastic" component={UploadPlastic} />
+    
+  </tabNavigator.Navigator>
 )
+
+const AuthScreens = () => {
+  let initialRoute;
+  React.useEffect(() => {
+    const isOpened = async () => {
+      const [firstTime, _] = await retrieveData('firstTime')
+      if (firstTime && firstTime == 'Y') {
+        initialRoute = "Login"
+      } 
+    }
+  })
+  return (
+    <Stack.Navigator initialRouteName={initialRoute}>
+      <Stack.Screen name="Login"component={Login} options={{title: 'Login'}} />
+      <Stack.Screen name="Agent-Login" component={LoginAgent} />
+      <Stack.Screen name="Register" component={Register} options={{title: 'Register'}} />
+      <Stack.Screen name="Agent-Register" component={RegisterAgent} />
+      <Stack.Screen name="Splash" component={Splash} />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{title: 'Forgot Password'}}
+      />
+    </Stack.Navigator>
+  )
+}
+
+const EditScreens = () => {
+ 
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Update-Address"
+        component={UpdateAddress}
+        options={{title: 'Update Your Address'}}
+      />
+      <Stack.Screen
+        name="Update-Bank"
+        component={UpdateBankInfo}
+        options={{title: 'Update Bank info'}}
+      />
+      <Stack.Screen
+        name="Update-Profile"
+        component={UpdateProfile}
+        options={{title: 'Update Your Profile'}}
+      />
+      <Stack.Screen
+        name="View-Profile"
+        component={ProfileView}
+        initialParams={{ id: 200 }}
+      />
+      <Stack.Screen
+        name="Plastic-Exchange"
+        component={PlasticExchange}
+        initialParams={{ id: 200 }}
+      />
+    </Stack.Navigator>
+)
+}
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash">
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{title: 'Login'}}
+      <Stack.Navigator initialRouteName="auth">
+        <Stack.Screen 
+          name='Profile-Screen' 
+          component={DashboardScreens}
+          options={{
+            tabBarStyle: { display: "none" },
+            headerShown: false
+         }}
         />
-        <Stack.Screen
-          name="Agent-Login"
-          component={LoginAgent}
+        <Stack.Screen 
+          name="Auth-Screen" 
+          component={AuthScreens}
+          options={{
+            tabBarStyle: { display: "none" },
+            headerShown: false
+         }}
         />
-        <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{title: 'Register'}}
-        />
-        <Stack.Screen
-          name="Agent-Register"
-          component={RegisterAgent}
-        />
-        <Stack.Screen name="Splash" component={Splash} />
-        <Stack.Screen
-          name="ForgotPassword"
-          component={ForgotPassword}
-          options={{title: 'Forgot Password'}}
-        />
-        <Stack.Screen
-          name="Dashboard"
-          component={UserDashboard}
-          options={{title: 'Dashboard'}}
-        />
-        <Stack.Screen
-          name="Update-Address"
-          component={UpdateAddress}
-          options={{title: 'Update Your Address'}}
-        />
-        <Stack.Screen
-          name="Update-Bank"
-          component={UpdateBankInfo}
-          options={{title: 'Update Bank info'}}
-        />
-        <Stack.Screen
-          name="Update-Profile"
-          component={UpdateProfile}
-          options={{title: 'Update Your Profile'}}
-        />
-        <Stack.Screen
-          name="Upload-Plastic"
-          component={UploadPlastic}
-          options={{title: 'Upload Plastic'}}
-        />
-        <Stack.Screen
-          name="Profile"
-          component={Profile}
-          options={{title: 'Your Profile'}}
-        />
-         <Stack.Screen
-          name="Withdraw"
-          component={Withdrawal}
-        />
-         <Stack.Screen
-          name="Plastic-Exchange"
-          component={PlasticExchange}
-          initialParams={{ id: 200 }}
+        <Stack.Screen 
+          name='Edit-Screen' 
+          component={EditScreens}
+          options={{
+            headerShown: false,
+            tabBarStyle: { display: "none" },
+         }}
         />
       </Stack.Navigator>
     </NavigationContainer>
-  );
-};
+  )
+}
 
 export default App;

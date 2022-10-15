@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import { color5 } from "../helper";
 
 const AddressCard = ({ street, zip, state, country }) => {
   return (
@@ -10,15 +11,15 @@ const AddressCard = ({ street, zip, state, country }) => {
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Zip Code</Text>
-        <Text style={styles.textSmall}>{ zip }</Text>
+        <Text style={styles.text}>{ zip }</Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>State</Text>
-        <Text style={styles.textSmall}>{ state }</Text>
+        <Text style={styles.text}>{ state }</Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Country</Text>
-        <Text style={styles.textSmall}>{ country }</Text>
+        <Text style={styles.text}>{ country }</Text>
       </View>
     </View>
   )
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     margin: 20,
     padding: 20,
-    backgroundColor: "darkgreen",
+    backgroundColor: color5,
     borderRadius: 10,
   },
   textContainer: {
@@ -42,12 +43,14 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'Lato-Regular',
     color: '#fff'
   },
   textSmall: {
-    fontSize: 15,
-    fontWeight: 'bold',
+    fontSize: 16,
+    // fontWeight: 'bold',
+    fontFamily: 'Lato-Regular',
     color: '#fff'
   }
 })

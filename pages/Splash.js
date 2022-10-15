@@ -1,16 +1,20 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, StyleSheet, Text, Button} from 'react-native';
-// import {Input} from '@rneui/themed';
+import { saveItem, retrieveData } from '../helper'
 
 const moveAway = (navigate) => {
-  setTimeout(() => {
+  setTimeout(async () => {
+    await saveItem('firstTime', "Y")
     navigate('Register')
-  }, 500)
+  }, 5000)
 }
 
 const Splash = ({ navigation }) => {
+  
+  
   moveAway(navigation.navigate);
+
   return (
     <View style={styles.container}>
       <View style={styles.container}>

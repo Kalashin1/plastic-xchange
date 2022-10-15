@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import { color5 } from "../helper";
 
 const BankCard = ({ bank, accountNo }) => {
   return (
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     margin: 20,
     padding: 20,
-    backgroundColor: "darkgreen",
+    backgroundColor: color5,
     borderRadius: 10,
   },
   textContainer: {
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff'
+    color: '#fff',
+    fontFamily: 'Lato-Regular',
   },
 })

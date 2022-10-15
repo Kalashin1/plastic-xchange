@@ -1,14 +1,22 @@
 import React, { useState, useEffect} from "react";
-import { StyleSheet, View, Text } from "react-native";
-import Card from "../components/Card";
-import { getUser, retrieveData, getUserExchanges } from "../helper";
+import { StyleSheet, View } from "react-native";
+import HeaderText from "../components/Header-Text";
+import Button from "../components/Button";
+import PlasticExchangeCard from "../components/Plastic-Exchange";
+import { getUser, retrieveData, getPlastic, saveItem } from "../helper";
 
 const PlasticExchange = ({  route, navigation }) => {
+
+  async function editPlastic(id) {
+    await saveItem('exchangeId', id);
+    navigation.push('Edit-Screen', { screen: 'Upload-Plastic' });
+  }
+
   const [user, setUser] = useState();
-  const [exchanges, setExchanges] = useState();
+  const [exchange, setExchange] = useState();
 
   const { id } = route.params;
-  console.log(id)
+  // console.log(id)
 
   useEffect(() => {
     const getData = async () => {
@@ -17,10 +25,10 @@ const PlasticExchange = ({  route, navigation }) => {
       if (!err) {
         setUser(_user);
         // console.log(_user)
-        const [_exchanges, excErr] = await getUserExchanges(token, _user.username)
+        const [_exchange, excErr] = await getPlastic(token, id)
         if (!excErr) {
-          setExchanges(_exchanges)
-          // console.log(_exchanges)
+          setExchange(_exchange.plastic)
+          // console.log(_exchange)
         }
       }
     }
@@ -29,8 +37,30 @@ const PlasticExchange = ({  route, navigation }) => {
   }, [])
   return (
     <View style={styles.container}>
-      <Text>Hello Name</Text>
-      <Card />
+      <View style={styles.textContainer}>
+        <HeaderText text={`Hello ${user?.name}`} />
+      </View>
+      <View style={styles.innerContainer}>
+
+        <PlasticExchangeCard
+          date={exchange?.createdAt}
+          status={exchange?.status}
+          weight={exchange?.weight}
+          type={exchange?.type}
+          navigation={navigation}
+          agentId={ user?.type === 'USER'? exchange?.agent?._id: null}
+          userId={ user?.type === 'AGENT'? exchange?.customer?._id: null}
+        />
+
+        { 
+          user && user.type !== 'AGENT' && (
+            <Button 
+              label="Edit Plastic"
+              onPressHandler={() => editPlastic(exchange?._id) }
+            /> 
+          )
+        }
+      </View>
     </View>
   )
 }
@@ -41,6 +71,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 30,
-    backgroundColor: '#efef'
-  }
+    backgroundColor: '#fff',
+  },
+  innerContainer: {
+    marginTop: 60
+  },
+  textContainer: {
+    marginLeft: 20
+  },
 })
