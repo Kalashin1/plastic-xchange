@@ -20,6 +20,13 @@ const TransactionComponent = ({
     },
     rowWrapper: {
       borderRadius: 10,
+      backgroundColor: "#fff",
+      borderWidth: 2,
+      padding: 5,
+      borderColor: color5,
+    },
+    secWrapper: {
+      borderRadius: 10,
       backgroundColor: color5,
     },
     tableRow: {
@@ -37,7 +44,14 @@ const TransactionComponent = ({
       color: '#fff',
       paddingHorizontal: 14,
       fontFamily: 'Lato-Regular',
-      fontSize: 16
+      fontSize: 12
+    },
+    textSmall: {
+      flex: 1,
+      color: '#fff',
+      paddingHorizontal: 14,
+      fontFamily: 'Lato-Regular',
+      fontSize: 10
     }
   })
 
@@ -45,16 +59,19 @@ const TransactionComponent = ({
     <View style={styles.container} >
       <TouchableOpacity onPress={() => viewExchange(id)}>
         <View style={styles.rowWrapper}>
-            <View style={styles.tableRow}>
+          <View style={styles.secWrapper}>
+             <View style={styles.tableRow}>
               <Text style={styles.text}>{ platType }</Text>
               <Text style={styles.text}></Text>
-              <Text style={styles.text}>N { formatter.format(amount) }</Text>
+              <Text style={styles.textSmall}>{ formatter.format(amount) }</Text>
             </View>
             <View style={styles.tableRow}>
-            <Text style={styles.text}>{ weight } Kg</Text>
-            <Text style={styles.text}>{ formatDate(date)}</Text>
-            <Text style={styles.text}>{ status }</Text>
+              <Text style={styles.text}>{ weight } Kg</Text>
+              <Text style={styles.text}>{ formatDate(date)}</Text>
+              <Text style={styles.text}>{ status }</Text>
+            </View>
           </View>
+           
         </View>
       </TouchableOpacity>
     </View>

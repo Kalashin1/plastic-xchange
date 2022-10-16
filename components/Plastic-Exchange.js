@@ -28,14 +28,14 @@ const PlasticExchange = ({
           label="View User"
           onPressHandler={() => navigation.navigate("Edit-Screen", {
             screen: "View-Profile",
-            id: userId
+            params: { id: userId }
           })}
         />
       }
       { agentId && <Button
           label="View Agent"
           onPressHandler={() => navigation.navigate("Edit-Screen", {
-            id: agentId,
+            params: { id: agentId },
             screen: "View-Profile",
           })}
         />

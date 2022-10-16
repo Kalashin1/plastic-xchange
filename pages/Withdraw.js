@@ -16,7 +16,7 @@ const Withdrawal = ({navigation}) => {
   useEffect(() => {
     const getData = async () => {
       const [_token, _] = await retrieveData('userToken');
-      setToken(_token)
+      console.log(_token)
       const [_user, err] = await getUser(token);
 
       if (!err) {
@@ -27,12 +27,12 @@ const Withdrawal = ({navigation}) => {
 
     getData();
   }, [])
-
-
+2
   const logWithdrawal = async (amount) => {
+    console.log(user)
     const [res, err] = await widthdraw(token, parseInt(amount), user._id)
     if (!err) {
-      console.log('logged')
+      alert('Withdrawal request Logged')
       navigation.navigate('Profile-Screen', { screen: 'Dashboard' })
     } else {
       console.log(err)

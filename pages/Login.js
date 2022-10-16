@@ -23,7 +23,7 @@ const Login = ({navigation}) => {
   const login = async () => {
     setEmailError(false)
     setPasswordError(false)
-    console.log({ email, password, type: 'USER' })
+    // console.log({ email, password, type: 'USER' })
     const res = await fetch(`${baseUrl}/login`, {
       headers: {
         'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ const Login = ({navigation}) => {
         />
         <Text 
           style={styles.text}
-          onPress={() => navigation.navigate('ForgotPassword')}
+          onPress={() => navigation.navigate('Auth-Screen', { screen: 'ForgotPassword' })}
         >
           Forgot Password ?
         </Text>
@@ -99,14 +99,14 @@ const Login = ({navigation}) => {
       </View>
       <Text 
         style={styles.loginTextParent}
-        onPress={() => navigation.navigate('Register')}
+        onPress={() => navigation.navigate('Auth-Screen', { screen: 'Register' })}
       >
         Don't have an account?
         <Text style={styles.loginText}> Register</Text>
       </Text>
       <Text 
         style={styles.linkText}
-        onPress={() => navigation.navigate('Agent-Login')}
+        onPress={() => navigation.navigate('Auth-Screen',{ screen: 'Agent-Login' })}
       >I am an agent</Text>
     </View>
   );

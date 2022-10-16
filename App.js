@@ -1,6 +1,9 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { color5, retrieveData } from './helper';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
@@ -30,10 +33,60 @@ const tabNavigator = createBottomTabNavigator()
 
 const DashboardScreens = () => (
   <tabNavigator.Navigator>
-    <tabNavigator.Screen name="Dashboard" component={UserDashboard} />
-    <tabNavigator.Screen name="Profile" component={Profile} />
-    <tabNavigator.Screen name="Withdraw" component={Withdrawal} />
-    <tabNavigator.Screen name="UploadPlastic" component={UploadPlastic} />
+    <tabNavigator.Screen 
+      name="Dashboard" 
+      component={UserDashboard}
+      options={{ 
+        // tabBarStyle: { backgroundColor: color5, color: "#fff" },
+        tabBarIcon: ({ color }) => (<Icon name='home' color={color} size={20} />),
+        headerStyle: {
+          backgroundColor: color5,
+        },
+        headerTitleStyle: {
+          color: 'white'
+        }
+      }}
+    />
+    <tabNavigator.Screen
+      name="Profile"
+      component={Profile}
+      options={{ 
+        tabBarIcon: ({ color }) => (<Icon name='user' color={color} size={20} />),
+        headerStyle: {
+          backgroundColor: color5,
+        },
+        headerTitleStyle: {
+          color: 'white'
+        }
+      }}
+    />
+    <tabNavigator.Screen 
+      name="Withdraw" 
+      component={Withdrawal}
+      options={{ 
+        tabBarIcon: ({ color }) => (<Icon name='credit-card' color={color} size={20} />),
+        headerStyle: {
+          backgroundColor: color5,
+        },
+        headerTitleStyle: {
+          color: 'white'
+        }
+      }}
+
+    />
+    <tabNavigator.Screen 
+      name="UploadPlastic" 
+      component={UploadPlastic}
+      options={{ 
+        tabBarIcon: ({ color }) => (<Icon name='recycle' color={color} size={25} />),
+        headerStyle: {
+          backgroundColor: color5,
+        },
+        headerTitleStyle: {
+          color: 'white'
+        }
+      }}
+    />
     
   </tabNavigator.Navigator>
 )
@@ -50,10 +103,58 @@ const AuthScreens = () => {
   })
   return (
     <Stack.Navigator initialRouteName={initialRoute}>
-      <Stack.Screen name="Login"component={Login} options={{title: 'Login'}} />
-      <Stack.Screen name="Agent-Login" component={LoginAgent} />
-      <Stack.Screen name="Register" component={Register} options={{title: 'Register'}} />
-      <Stack.Screen name="Agent-Register" component={RegisterAgent} />
+      <Stack.Screen
+       name="Login" 
+       component={Login} 
+       options={{
+          title: 'Login',
+          headerStyle: {
+            backgroundColor: color5,
+          },
+          headerTitleStyle: {
+            color: 'white'
+          }
+        }} 
+      />
+      <Stack.Screen 
+        name="Agent-Login" 
+        component={LoginAgent}
+        options={{
+          title: 'Login',
+          headerStyle: {
+            backgroundColor: color5,
+          },
+          headerTitleStyle: {
+            color: 'white'
+          }
+        }}
+      />
+      <Stack.Screen 
+        name="Register" 
+        component={Register} 
+        options={{
+          title: 'Register',
+          headerStyle: {
+            backgroundColor: color5,
+          },
+          headerTitleStyle: {
+            color: 'white'
+          }
+        }} 
+      />
+      <Stack.Screen 
+        name="Agent-Register" 
+        component={RegisterAgent}
+        options={{
+          title: 'Register',
+          headerStyle: {
+            backgroundColor: color5,
+          },
+          headerTitleStyle: {
+            color: 'white'
+          }
+        }}
+      />
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen
         name="ForgotPassword"
@@ -71,27 +172,67 @@ const EditScreens = () => {
       <Stack.Screen
         name="Update-Address"
         component={UpdateAddress}
-        options={{title: 'Update Your Address'}}
+        options={{
+          title: 'Update Your Address',
+          headerStyle: {
+            backgroundColor: color5,
+          },
+          headerTitleStyle: {
+            color: 'white'
+          }
+        }}
       />
       <Stack.Screen
         name="Update-Bank"
         component={UpdateBankInfo}
-        options={{title: 'Update Bank info'}}
+        options={{
+          title: 'Update Bank info',
+          headerStyle: {
+            backgroundColor: color5,
+          },
+          headerTitleStyle: {
+            color: 'white'
+          }
+        }}
       />
       <Stack.Screen
         name="Update-Profile"
         component={UpdateProfile}
-        options={{title: 'Update Your Profile'}}
+        options={{
+          title: 'Update Your Profile',
+          headerStyle: {
+            backgroundColor: color5,
+          },
+          headerTitleStyle: {
+            color: 'white'
+          }
+        }}
       />
       <Stack.Screen
         name="View-Profile"
         component={ProfileView}
-        initialParams={{ id: 200 }}
+        initialParams={{ 
+          id: 200,
+          headerStyle: {
+            backgroundColor: color5,
+          },
+          headerTitleStyle: {
+            color: 'white'
+          }
+        }}
       />
       <Stack.Screen
         name="Plastic-Exchange"
         component={PlasticExchange}
-        initialParams={{ id: 200 }}
+        initialParams={{ 
+          id: 200,
+          headerStyle: {
+            backgroundColor: color5,
+          },
+          headerTitleStyle: {
+            color: 'white'
+          }
+        }}
       />
     </Stack.Navigator>
 )
@@ -100,9 +241,30 @@ const EditScreens = () => {
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  let [initialRoute, setInitialRoute] = React.useState('Auth-Screen');
+  React.useEffect(() => {
+    const isOpened = async () => {
+      const [userToken, _] = await retrieveData('userToken')
+      if (userToken) {
+        setInitialRoute("Profile-Screen")
+      } else {
+        setInitialRoute("Auth-Screen")
+      }
+    }
+
+    isOpened()
+  })
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="auth">
+      <Stack.Navigator initialRouteName={initialRoute}>
+      <Stack.Screen 
+          name="Auth-Screen" 
+          component={AuthScreens}
+          options={{
+            tabBarStyle: { display: "none" },
+            headerShown: false
+         }}
+        />
         <Stack.Screen 
           name='Profile-Screen' 
           component={DashboardScreens}
@@ -111,14 +273,7 @@ const App = () => {
             headerShown: false
          }}
         />
-        <Stack.Screen 
-          name="Auth-Screen" 
-          component={AuthScreens}
-          options={{
-            tabBarStyle: { display: "none" },
-            headerShown: false
-         }}
-        />
+        
         <Stack.Screen 
           name='Edit-Screen' 
           component={EditScreens}

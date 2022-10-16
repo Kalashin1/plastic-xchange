@@ -38,7 +38,7 @@ const Register = ({navigation}) => {
       if (data.error) {
         const error = data.message;
         // handle error
-        console.log(error);
+        // console.log(error);
         if (error.username) {
           setUsernameError(true)
         } else if (error.email) {
@@ -47,7 +47,7 @@ const Register = ({navigation}) => {
 
       } else {
         const [user, token] = data.data;
-        console.log(user);
+        // console.log(user);
         storeUserData(user._id, token);
         navigation.navigate('Auth-Screen', { screen: 'Login' });
       }
@@ -95,14 +95,14 @@ const Register = ({navigation}) => {
         </View>
         <Text 
           style={styles.loginTextParent}
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => navigation.navigate('Auth-Screen', { screen: 'Login' })}
         >
           Already have an account? 
           <Text style={styles.loginText}> Login</Text>
         </Text>
         <Text 
           style={styles.linkText}
-          onPress={() => navigation.navigate('Agent-Register')}
+          onPress={() => navigation.navigate('Auth-Screen',{ screen: 'Agent-Register' })}
         >
           I am an agent
         </Text>

@@ -5,14 +5,25 @@ import { baseUrl, color5, storeUserData } from '../helper';
 import HeaderText from '../components/Header-Text';
 import Button from '../components/Button';
 import Input from '../components/Input';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+const _Error = {
+  email: "No user with that email",
+  password: "Incorrect password"
+}
 
 const Login = ({navigation}) => {
 
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false)
+
+  const [passwordError, setPasswordError] = useState(false)
   const [password, setPassword] = useState('');
 
   const login = async () => {
-    console.log({ email, password, type: 'USER' })
+    setEmailError(false)
+    setPasswordError(false)
+    // console.log({ email, password, type: 'USER' })
     const res = await fetch(`${baseUrl}/login`, {
       headers: {
         'Content-Type': 'application/json'
@@ -25,8 +36,14 @@ const Login = ({navigation}) => {
       const data = await res.json();
 
       if (data.error) {
-        // handle error
-        console.log(data.message)
+        const error = data.message
+        if (error.email) {
+          console.log(data.message.email)
+          setEmailError(true)
+        } else if (error.password) {
+          setPasswordError(true)
+        }
+        
       } else {
         // handle User
         const [user, token] = data.data
@@ -34,12 +51,12 @@ const Login = ({navigation}) => {
         await storeUserData(user._id, token);
         if (user.location.country !== null) {
           if (user.bankInfo.bank !== null ) {
-            navigation.navigate('Dashboard');
+            navigation.navigate('Profile-Screen', { screen: 'Dashboard' });
           } else {
-            navigation.navigate('Update-Bank');
+            navigation.navigate('Edit-Screen', { screen: 'Update-Bank' });
           }
         } else {
-          navigation.navigate('Update-Address');
+          navigation.navigate('Edit-Screen', { screen: 'Update-Address' });
         }
       }
     }
@@ -51,41 +68,46 @@ const Login = ({navigation}) => {
         text="Login to your account"
       />
       <View>
+      {/* <Icon name="rocket" size={30} color="#900" /> */}
         <Input
           placeholder="Enter Your Email"
           defaultV={email}
           label="Email"
+          showError={emailError}
           handleChange={setEmail}
+          errorMessage="Incorrect email"
         />
         <Input
           placeholder="********"
           defaultV={password}
           label="Password"
           handleChange={setPassword}
+          showError={passwordError}
           isPassword={true}
+          errorMessage="Incorrect Password"
         />
         <Text 
           style={styles.text}
-          onPress={() => navigation.navigate('ForgotPassword')}
+          onPress={() => navigation.navigate('Auth-Screen', { screen: 'ForgotPassword' })}
         >
           Forgot Password ?
         </Text>
         <Button
-          label="Login"
+          label="Sign in"
           onPressHandler={login}
         />
       </View>
-      <Text style={styles.loginTextParent}>
+      <Text 
+        style={styles.loginTextParent}
+        onPress={() => navigation.navigate('Auth-Screen', { screen: 'Agent-Register' })}
+      >
         Don't have an account?
-        <Text
-          style={styles.loginText}
-          onPress={() => navigation.navigate('Agent-Register')}
-        > Register</Text>
+        <Text style={styles.loginText}> Register</Text>
       </Text>
       <Text 
         style={styles.linkText}
-        onPress={() => navigation.navigate('Login')}
-      >I have a household</Text>
+        onPress={() => navigation.navigate('Auth-Screen',{ screen: 'Login' })}
+      >I own a household</Text>
     </View>
   );
 };
@@ -93,25 +115,30 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
     textAlign: 'left',
-    marginVertical: 10,
-    fontWeight: 'b',
+    marginLeft: 20,
+    marginTop: 5,
+    fontFamily: 'Lato-Regular',
   },
   linkText: {
     marginVertical: 20,
-    color: color5,
-    fontSize: 18
+    color: 'blue',
+    fontSize: 18,
+    fontFamily: 'Lato-Bold',
   },
   loginText: {
     color: color5,
     padding: 5,
+    fontFamily: 'Lato-Bold',
   },
   loginTextParent: {
     marginTop: 20,
+    fontFamily: 'Lato-Bold',
   },
 });
 
