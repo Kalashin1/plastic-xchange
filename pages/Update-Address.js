@@ -45,7 +45,7 @@ const UpdateAddress = ({navigation}) => {
           // TODO: handle errors
           // console.log(data.message);
         } else {
-          console.log(data.message);
+          // console.log(data.message);
           alert(data.message)
           navigation.navigate('Profile-Screen', { screen: 'Profile' })
         }

@@ -49,8 +49,8 @@ const Login = ({navigation}) => {
         const [user, token] = data.data
         console.log(user);
         await storeUserData(user._id, token);
-        if (user.location.country !== null) {
-          if (user.bankInfo.bank !== null ) {
+        if (user.location) {
+          if (user.bankInfo) {
             navigation.navigate('Profile-Screen', { screen: 'Dashboard' });
           } else {
             navigation.navigate('Edit-Screen', { screen: 'Update-Bank' });

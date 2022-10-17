@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState} from 'react';
 import {View, StyleSheet, Text } from 'react-native';
-import { getUser, retrieveData, widthdraw } from '../helper';
+import { getUser, retrieveData, widthdraw, getUserById } from '../helper';
 import HeaderText from '../components/Header-Text';
 import Button from '../components/Button';
 import Input from '../components/Input';
@@ -16,13 +16,21 @@ const Withdrawal = ({navigation}) => {
   useEffect(() => {
     const getData = async () => {
       const [_token, _] = await retrieveData('userToken');
+      const [_id, _err] = await retrieveData('userId')
       console.log(_token)
-      const [_user, err] = await getUser(token);
+      const [_user, err] = await getUser(_token);
 
       if (!err) {
-        // console.log(_user)
+        console.log(_user)
+        if(_user.type == 'USER' && (!_user.agent)) {
+          alert('You have not been assigned an agent')
+          navigation.navigate('Profile-Screen', { screen: 'Dashboard'})
+        }
         setUser(_user)
+        setToken(_token)
       }
+
+      // console.log(err)
     }
 
     getData();
@@ -50,10 +58,15 @@ const Withdrawal = ({navigation}) => {
           handleChange={setAmount}
           label="Amount"
         />
-        <Button
-          label="Withdraw"
-          onPressHandler={() => logWithdrawal(amount)}
-        />
+        { user && user.type == 'USER' && (!user.agent) ? 
+          (<Text></Text>) : 
+          (
+            <Button
+              label="Withdraw"
+              onPressHandler={() => logWithdrawal(amount)}
+            />
+          )
+        }
       </View>
     </View>
   );

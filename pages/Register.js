@@ -49,7 +49,15 @@ const Register = ({navigation}) => {
         const [user, token] = data.data;
         // console.log(user);
         storeUserData(user._id, token);
-        navigation.navigate('Auth-Screen', { screen: 'Login' });
+        if (user?.location !== null) {
+          if (user?.bankInfo !== null ) {
+            navigation.navigate('Profile-Screen', { screen: 'Dashboard' });
+          } else {
+            navigation.navigate('Edit-Screen', { screen: 'Update-Bank' });
+          }
+        } else {
+          navigation.navigate('Edit-Screen', { screen: 'Update-Address' });
+        }
       }
     }
   }

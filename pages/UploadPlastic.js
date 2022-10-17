@@ -25,7 +25,7 @@ const UploadPlastic = ({ navigation }) => {
         console.log(exchangeId)
       }
 
-      // console.log(_token)
+      console.log(_token)
       if (_token) {
         const [data, err] = await getPlastics(_token)
         const [userD, userErr] = await await getUser(_token);
@@ -33,6 +33,10 @@ const UploadPlastic = ({ navigation }) => {
         if (data && userD) {
           const _plastics = data.map(d => ({ label: d.type, value: d.type }))
           // console.log(_plastics)
+          if(userD.type == 'USER' && (!userD.agent)) {
+            alert('You have not been assigned an agent')
+            navigation.navigate('Profile-Screen', { screen: 'Dashboard'})
+          }
           setPlasts(_plastics);
           setUser(userD)
         }
@@ -83,10 +87,11 @@ const UploadPlastic = ({ navigation }) => {
 
         <Text style={styles.text}>Weight</Text>
         { plasts && (<DropdownComponent data={plasts} setValue={setPlastic} value={plastic} />) }
-        <Button 
-          label="UploadPlastic" 
-          onPressHandler={() => uploadPlastic()}
-        />
+        { user && user.type == 'USER' && (!user.agent) ?<Text></Text> : <Button 
+            label="UploadPlastic" 
+            onPressHandler={() => uploadPlastic()}
+          />
+        }
       </View>
     </View>
   );

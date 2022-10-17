@@ -37,7 +37,6 @@ const DashboardScreens = () => (
       name="Dashboard" 
       component={UserDashboard}
       options={{ 
-        // tabBarStyle: { backgroundColor: color5, color: "#fff" },
         tabBarIcon: ({ color }) => (<Icon name='home' color={color} size={20} />),
         headerStyle: {
           backgroundColor: color5,
@@ -57,7 +56,7 @@ const DashboardScreens = () => (
         },
         headerTitleStyle: {
           color: 'white'
-        }
+        },
       }}
     />
     <tabNavigator.Screen 
@@ -70,21 +69,21 @@ const DashboardScreens = () => (
         },
         headerTitleStyle: {
           color: 'white'
-        }
+        },
       }}
 
     />
     <tabNavigator.Screen 
       name="UploadPlastic" 
       component={UploadPlastic}
-      options={{ 
+      options={{
         tabBarIcon: ({ color }) => (<Icon name='recycle' color={color} size={25} />),
         headerStyle: {
           backgroundColor: color5,
         },
         headerTitleStyle: {
           color: 'white'
-        }
+        },
       }}
     />
     

@@ -21,13 +21,15 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   registerButton: {
-    backgroundColor: color5,
+    backgroundColor: '#fff',
     paddingVertical: 16,
     textAlign: 'center',
-    color: '#fff',
+    color: color5,
     fontFamily: 'Lato-Black',
     borderRadius: 18,
     fontSize: 18,
+    borderWidth: 2,
+    borderColor: color5,
     paddingHorizontal: 20
   },
 })

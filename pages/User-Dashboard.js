@@ -25,8 +25,10 @@ const UserDashboard = ({ navigation }) => {
         if (!excErr) {
           // console.log(_exchanges[0])
           setExchanges(_exchanges)
-          const weight = _exchanges.map(e => e.weight).reduce((prev, current) => prev + current);
-          setWeight(weight)
+          if (_exchanges.lenght > 1) {
+            const weight = _exchanges.map(e => e.weight).reduce((prev, current) => prev + current);
+            setWeight(weight)
+          }
           // const weightTotal
           // console.log(_exchanges)
         }
@@ -44,7 +46,7 @@ const UserDashboard = ({ navigation }) => {
         header="Balance"
         text={user?.balance} 
         headerTwo="Kilograms Exchnaged"
-        textTwo={`${weight && new Intl.NumberFormat().format(weight)} kg`}
+        textTwo={`${weight ? new Intl.NumberFormat().format(weight): 0 } kg`}
       />
     
       <View style={styles.textContainer}>

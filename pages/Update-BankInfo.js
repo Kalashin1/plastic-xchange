@@ -34,9 +34,9 @@ const UpdateBankInfo = ({navigation}) => {
 
         if (data.error) {
           // handle Error
-          console.log(data.message)
+          // console.log(data.message)
         } else {
-          console.log(data.message);
+          // console.log(data.message);
           alert(data.message)
           navigation.navigate('Profile-Screen', { screen: 'Profile' });
         }
