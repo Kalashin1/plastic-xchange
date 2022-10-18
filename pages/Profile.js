@@ -31,7 +31,7 @@ const Profile = ({ navigation }) => {
         <View style={styles.textContainer}>
           <HeaderText text="profile" />
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Edit-Screen', { screen: 'Update-Profile'})}>
           <ProfileCard 
             email={user?.email} 
             name={user?.name} 

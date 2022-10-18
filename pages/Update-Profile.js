@@ -1,7 +1,10 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import {View, StyleSheet, TextInput, Text, Button} from 'react-native';
-import DropdownComponent from '../components/Dropdown';
+import React,{ useState } from 'react';
+import {View, StyleSheet, TextInput, Text } from 'react-native';
+import Input from '../components/Input';
+import HeaderText from '../components/Header-Text';
+import Button from '../components/Button';
+import { baseUrl, retrieveData } from '../helper'
 
 const data = [
   {label: 'User', value: 'USER'},
@@ -10,13 +13,61 @@ const data = [
 
 const UpdateProfile = ({navigation}) => {
 
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const updateBankInfo = async () => {
+    const [id, err] = await retrieveData('userId');
+    const [token, setToken] = await retrieveData('userToken');
+    if (token && id) {
+      const res = await fetch(`${baseUrl}/user/bankInfo/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ bank, accountNo })
+      })
+
+      if (res.ok) {
+        const data = await res.json();
+
+        if (data.error) {
+          // handle Error
+          // console.log(data.message)
+        } else {
+          // console.log(data.message);
+          alert(data.message)
+          navigation.navigate('Profile-Screen', { screen: 'Profile' });
+        }
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Name</Text>
-      <TextInput style={styles.input} placeholder="Enter Your Full Name" />
-      <Text style={styles.text}>Phone Number</Text>
-      <TextInput style={styles.input} placeholder="Enter Your Phone Number" />
-      <Button title="UpdateProfile" onPress={() => navigation.navigate('Dashboard')} />
+
+      <View>
+        <HeaderText text="Update Your Profile" />
+      </View>
+      <View>
+        <Input 
+          defaultV={name}
+          label="Name"
+          placeholder="John Doe"
+          handleChange={setName}
+
+        />
+
+        <Input
+          defaultV={phoneNumber}
+          label="Phone Number"
+          placeholder="0123456789"
+          handleChange={setPhoneNumber}
+        />
+
+        <Button label="Update" onPressHandler={() => updateBankInfo()} />
+      </View>
     </View>
   );
 };
@@ -24,7 +75,7 @@ const UpdateProfile = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    background: 'maroon',
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -39,7 +90,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginVertical: 10,
     fontWeight: 'b',
-  },
+  }
 });
 
 

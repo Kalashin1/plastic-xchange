@@ -58,6 +58,26 @@ export const storeUserData = async (id, token) => {
   }
 }
 
+export const verifyOTP = async (otp, username) => {
+  try {
+    const res = await fetch(`${baseUrl}/user/otp/${otp}/${username}`);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (!data.error) {
+        return [data.data, null]
+      } else {
+        return [null, data.message]
+      }
+    } else {
+      const data = await res.json();
+      return [null, data.message]
+    }
+  } catch (error) {
+    return [false, error.message]
+  }
+}
+
 export const saveItem = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);

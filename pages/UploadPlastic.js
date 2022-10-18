@@ -33,8 +33,8 @@ const UploadPlastic = ({ navigation }) => {
         if (data && userD) {
           const _plastics = data.map(d => ({ label: d.type, value: d.type }))
           // console.log(_plastics)
-          if(userD.type == 'USER' && (!userD.agent)) {
-            alert('You have not been assigned an agent')
+          if(userD.type == 'USER') {
+            alert('User cannot upload Plastic')
             navigation.navigate('Profile-Screen', { screen: 'Dashboard'})
           }
           setPlasts(_plastics);
@@ -87,7 +87,7 @@ const UploadPlastic = ({ navigation }) => {
 
         <Text style={styles.text}>Weight</Text>
         { plasts && (<DropdownComponent data={plasts} setValue={setPlastic} value={plastic} />) }
-        { user && user.type == 'USER' && (!user.agent) ?<Text></Text> : <Button 
+        { user && user.type == 'USER'?<Text></Text> : <Button 
             label="UploadPlastic" 
             onPressHandler={() => uploadPlastic()}
           />

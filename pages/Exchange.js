@@ -53,7 +53,7 @@ const PlasticExchange = ({  route, navigation }) => {
         />
 
         { 
-          user && user.type !== 'AGENT' && (
+          user && user.type == 'AGENT' && (
             <Button 
               label="Edit Plastic"
               onPressHandler={() => editPlastic(exchange?._id) }

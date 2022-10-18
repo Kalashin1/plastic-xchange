@@ -12,54 +12,42 @@ const _Error = {
   password: "Incorrect password"
 }
 
-const Login = ({navigation}) => {
+const Signin = ({navigation}) => {
 
   const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState(false)
 
-  const [passwordError, setPasswordError] = useState(false)
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [usernameError, setUsernameError] = useState(false)
 
   const [type, setType] = useState('USER')
 
+  let userType = "USER";
+
   const login = async () => {
-    setEmailError(false)
-    setPasswordError(false)
     // console.log({ email, password, type: 'USER' })
-    const res = await fetch(`${baseUrl}/login`, {
+    const res = await fetch(`${baseUrl}/signin`, {
       headers: {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify({ email, password, type: 'USER' })
+      body: JSON.stringify({ email, username, type: userType })
     })
 
     if (res.ok) {
       const data = await res.json();
 
+      console.log(data)
+
       if (data.error) {
         const error = data.message
-        if (error.email) {
-          console.log(data.message.email)
-          setEmailError(true)
-        } else if (error.password) {
-          setPasswordError(true)
-        }
+        console.log(error)
         
       } else {
         // handle User
         const [user, token] = data.data
         console.log(user);
         await storeUserData(user._id, token);
-        if (user.location) {
-          if (user.bankInfo) {
-            navigation.navigate('Profile-Screen', { screen: 'Dashboard' });
-          } else {
-            navigation.navigate('Edit-Screen', { screen: 'Update-Bank' });
-          }
-        } else {
-          navigation.navigate('Edit-Screen', { screen: 'Update-Address' });
-        }
+        navigation.navigate('Auth-Screen', { screen: 'otp' });
       }
     }
   }
@@ -67,33 +55,25 @@ const Login = ({navigation}) => {
   return (
     <View style={styles.container}>
       <HeaderText
-        text="Login to your account"
+        text="Signin to your account"
       />
       <View>
       {/* <Icon name="rocket" size={30} color="#900" /> */}
         <Input
-          placeholder="Enter Your Email"
+          placeholder="Johndoe@gmail.com"
           defaultV={email}
           label="Email"
-          showError={emailError}
           handleChange={setEmail}
-          errorMessage="Incorrect email"
         />
         <Input
-          placeholder="********"
-          defaultV={password}
-          label="Password"
-          handleChange={setPassword}
-          showError={passwordError}
-          isPassword={true}
-          errorMessage="Incorrect Password"
+          label="Username"
+          defaultV={username}
+          handleChange={setUsername}
+          placeholder="JohnDoe1"
+          showError={usernameError}
+          errorMessage="That username already exists"
         />
-        <Text 
-          style={styles.text}
-          onPress={() => navigation.navigate('Auth-Screen', { screen: 'ForgotPassword' })}
-        >
-          Forgot Password ?
-        </Text>
+       
         <Button
           label="Sign in"
           onPressHandler={login}
@@ -112,7 +92,7 @@ const Login = ({navigation}) => {
             style={styles.linkText}
             onPress={() => { setType('AGENT') }}
           >
-            I am an agent
+            I am an { type.toLowerCase()}
           </Text>
         ) : 
         (
@@ -120,10 +100,11 @@ const Login = ({navigation}) => {
            style={styles.linkText}
            onPress={() => { setType('AGENT') }}
          >
-          I have a household
+          I am an { type.toLowerCase()}
           </Text>
         )
       }
+     
     </View>
   );
 };
@@ -158,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Signin;

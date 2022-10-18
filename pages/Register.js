@@ -18,6 +18,8 @@ const Register = ({navigation}) => {
 
   const [password, setPassword] = useState('');
 
+  const [type, setType] = useState('USER')
+
   handlePress = () => {
     navigation.navigate('Dashboard')
   }
@@ -108,12 +110,24 @@ const Register = ({navigation}) => {
           Already have an account? 
           <Text style={styles.loginText}> Login</Text>
         </Text>
-        <Text 
-          style={styles.linkText}
-          onPress={() => navigation.navigate('Auth-Screen',{ screen: 'Agent-Register' })}
-        >
-          I am an agent
-        </Text>
+        { type == "USER" ? 
+        (
+          <Text 
+            style={styles.linkText}
+            onPress={() => { setType('AGENT') }}
+          >
+            I am an agent
+          </Text>
+        ) : 
+        (
+          <Text 
+           style={styles.linkText}
+           onPress={() => { setType('AGENT') }}
+         >
+          I have a household
+          </Text>
+        )
+      }
       </View>
     </ScrollView>
   );

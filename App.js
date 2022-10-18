@@ -9,6 +9,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Signin from './pages/Signin';
+import OTP from './pages/Otp';
 import ForgotPassword from './pages/Forgot-Password';
 
 import LoginAgent from './pages/Login-Agent';
@@ -96,12 +98,26 @@ const AuthScreens = () => {
     const isOpened = async () => {
       const [firstTime, _] = await retrieveData('firstTime')
       if (firstTime && firstTime == 'Y') {
-        initialRoute = "Login"
+        initialRoute = "Signin"
       } 
     }
   })
   return (
     <Stack.Navigator initialRouteName={initialRoute}>
+      <Stack.Screen 
+        name="Signin" 
+        component={Signin}
+        options={{
+          title: 'Signin',
+          headerStyle: {
+            backgroundColor: color5,
+          },
+          headerTitleStyle: {
+            color: 'white'
+          }
+        }}
+      />
+      
       <Stack.Screen
        name="Login" 
        component={Login} 
@@ -115,19 +131,7 @@ const AuthScreens = () => {
           }
         }} 
       />
-      <Stack.Screen 
-        name="Agent-Login" 
-        component={LoginAgent}
-        options={{
-          title: 'Login',
-          headerStyle: {
-            backgroundColor: color5,
-          },
-          headerTitleStyle: {
-            color: 'white'
-          }
-        }}
-      />
+      
       <Stack.Screen 
         name="Register" 
         component={Register} 
@@ -142,10 +146,10 @@ const AuthScreens = () => {
         }} 
       />
       <Stack.Screen 
-        name="Agent-Register" 
-        component={RegisterAgent}
+        name="otp" 
+        component={OTP}
         options={{
-          title: 'Register',
+          title: 'OTP',
           headerStyle: {
             backgroundColor: color5,
           },
