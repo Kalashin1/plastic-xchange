@@ -4,7 +4,7 @@ import {View, StyleSheet, TextInput, Text } from 'react-native';
 import Input from '../components/Input';
 import HeaderText from '../components/Header-Text';
 import Button from '../components/Button';
-import { baseUrl, retrieveData } from '../helper'
+import { UpdateProfile as updateProfile, retrieveData } from '../helper'
 
 const data = [
   {label: 'User', value: 'USER'},
@@ -16,31 +16,18 @@ const UpdateProfile = ({navigation}) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const updateBankInfo = async () => {
+  const updateBankInfo = async (payload) => {
     const [id, err] = await retrieveData('userId');
     const [token, setToken] = await retrieveData('userToken');
     if (token && id) {
-      const res = await fetch(`${baseUrl}/user/bankInfo/${id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ bank, accountNo })
-      })
-
-      if (res.ok) {
-        const data = await res.json();
-
-        if (data.error) {
-          // handle Error
-          // console.log(data.message)
-        } else {
-          // console.log(data.message);
-          alert(data.message)
-          navigation.navigate('Profile-Screen', { screen: 'Profile' });
-        }
+      const [res, _err] = await updateProfile(token, id, payload)
+      if (!err) {
+        alert("Profile updated successfuly")
+        navigation.navigate('Profile-Screen', { screen: 'Profile' });
+      } else {
+        console.log('error')
       }
+      
     }
   }
 
@@ -66,7 +53,7 @@ const UpdateProfile = ({navigation}) => {
           handleChange={setPhoneNumber}
         />
 
-        <Button label="Update" onPressHandler={() => updateBankInfo()} />
+        <Button label="Update" onPressHandler={() => updateBankInfo({ name, phoneNumber })} />
       </View>
     </View>
   );

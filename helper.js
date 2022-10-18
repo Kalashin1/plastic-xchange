@@ -58,6 +58,33 @@ export const storeUserData = async (id, token) => {
   }
 }
 
+export const UpdateProfile = async (token, id, { name, phoneNumber}) => {
+  try {
+    const res = await fetch(`${baseUrl}/update/profile/${id}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify({ name, phoneNumber})
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (!data.error) {
+        return [data.data, null]
+      } else {
+        return [null, data.message]
+      }
+    } else {
+      const data = await res.json();
+      return [null, data.message]
+    }
+  } catch (error) {
+    return [false, error.message]
+  }
+}
+
 export const verifyOTP = async (otp, username) => {
   try {
     const res = await fetch(`${baseUrl}/user/otp/${otp}/${username}`);
