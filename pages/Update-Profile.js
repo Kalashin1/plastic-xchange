@@ -1,33 +1,56 @@
 /* eslint-disable prettier/prettier */
-import React,{ useState } from 'react';
+import React,{ useState, useEffect } from 'react';
 import {View, StyleSheet, TextInput, Text } from 'react-native';
 import Input from '../components/Input';
 import HeaderText from '../components/Header-Text';
 import Button from '../components/Button';
-import { UpdateProfile as updateProfile, retrieveData } from '../helper'
-
-const data = [
-  {label: 'User', value: 'USER'},
-  {label: 'Agent', value: 'AGENT'},
-];
+import { UpdateProfile as updateProfile, retrieveData, getUser } from '../helper'
 
 const UpdateProfile = ({navigation}) => {
+
+  const [token, setToken] = useState()
+  const [id, setId] = useState('')
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const getLoggedInUser = async () => {
+      const [_token, _] = await retrieveData('userToken');
+      if (!_) {
+        setToken(_token)
+      }
+      let id, _err;
+      [id, _err] = await retrieveData('userId');
+
+      if(!_err) {
+        setId(id);
+      }
+      let _user, err;
+
+      if (!_) {
+        [_user, err] = await getUser(_token);
+      } 
+
+      if (!err) {
+        setUser(_user);
+        console.log(_user)
+      }
+    }
+
+    getLoggedInUser()
+  }, [])
 
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const updateBankInfo = async (payload) => {
-    const [id, err] = await retrieveData('userId');
-    const [token, setToken] = await retrieveData('userToken');
-    if (token && id) {
-      const [res, _err] = await updateProfile(token, id, payload)
-      if (!err) {
-        alert("Profile updated successfuly")
-        navigation.navigate('Profile-Screen', { screen: 'Profile' });
-      } else {
-        console.log('error')
-      }
-      
+  const _updateProfile = async () => {
+    const payload =  JSON.stringify({ name, phoneNumber, type: user.type })
+    const [res, _err] = await updateProfile(token, id, payload)
+    if (!_err) {
+      // console.log(res)
+      alert("Profile updated successfuly")
+      navigation.navigate('Profile-Screen', { screen: 'Profile' });
+    } else {
+      console.log(_err)
     }
   }
 
@@ -53,7 +76,7 @@ const UpdateProfile = ({navigation}) => {
           handleChange={setPhoneNumber}
         />
 
-        <Button label="Update" onPressHandler={() => updateBankInfo({ name, phoneNumber })} />
+        <Button label="Update" onPressHandler={_updateProfile} />
       </View>
     </View>
   );

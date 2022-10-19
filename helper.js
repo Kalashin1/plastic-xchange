@@ -58,15 +58,17 @@ export const storeUserData = async (id, token) => {
   }
 }
 
-export const UpdateProfile = async (token, id, { name, phoneNumber}) => {
+export const UpdateProfile = async (token, id, payload) => {
+  // console.log(token, id, payload)
+  // return [payload, false]
   try {
-    const res = await fetch(`${baseUrl}/update/profile/${id}`, {
+    const res = await fetch(`${baseUrl}/user/profile/${id}/`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json' 
       },
-      body: JSON.stringify({ name, phoneNumber})
+      body: payload
     });
 
     if (res.ok) {

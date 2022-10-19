@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { color5, retrieveData } from './helper';
+import { color3, color4, color5, color2, retrieveData } from './helper';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -39,39 +39,48 @@ const DashboardScreens = () => (
       name="Dashboard"
       component={UserDashboard}
       options={{ 
-        tabBarIcon: ({ color }) => (<Icon name='home' color={color} size={20} />),
+        title: '',
+        tabBarIcon: ({ color }) => (<Icon name='home' color={color} size={25} />),
         headerStyle: {
           backgroundColor: color5,
         },
         headerTitleStyle: {
           color: 'white'
-        }
+        },
+        tabBarInactiveTintColor: color3,
+        tabBarActiveTintColor: color4,
       }}
     />
     <tabNavigator.Screen
       name="Profile"
       component={Profile}
       options={{ 
-        tabBarIcon: ({ color }) => (<Icon name='user' color={color} size={20} />),
+        title: '',
+        tabBarIcon: ({ color }) => (<Icon name='user' color={color} size={25} />),
         headerStyle: {
           backgroundColor: color5,
         },
         headerTitleStyle: {
           color: 'white'
         },
+        tabBarInactiveTintColor: color3,
+        tabBarActiveTintColor: color4,
       }}
     />
     <tabNavigator.Screen 
       name="Withdraw" 
       component={Withdrawal}
       options={{ 
-        tabBarIcon: ({ color }) => (<Icon name='credit-card' color={color} size={20} />),
+        title: '',
+        tabBarIcon: ({ color }) => (<Icon name='credit-card' color={color} size={25} />),
         headerStyle: {
           backgroundColor: color5,
         },
         headerTitleStyle: {
           color: 'white'
         },
+        tabBarInactiveTintColor: color3,
+        tabBarActiveTintColor: color4,
       }}
 
     />
@@ -79,6 +88,7 @@ const DashboardScreens = () => (
       name="UploadPlastic" 
       component={UploadPlastic}
       options={{
+        title: '',
         tabBarIcon: ({ color }) => (<Icon name='recycle' color={color} size={25} />),
         headerStyle: {
           backgroundColor: color5,
@@ -86,6 +96,8 @@ const DashboardScreens = () => (
         headerTitleStyle: {
           color: 'white'
         },
+        tabBarInactiveTintColor: color3,
+        tabBarActiveTintColor: color4,
       }}
     />
     
@@ -108,7 +120,7 @@ const AuthScreens = () => {
         name="Signin" 
         component={Signin}
         options={{
-          title: 'Signin',
+          title: '',
           headerStyle: {
             backgroundColor: color5,
           },
@@ -122,7 +134,7 @@ const AuthScreens = () => {
        name="Login" 
        component={Login} 
        options={{
-          title: 'Login',
+          title: '',
           headerStyle: {
             backgroundColor: color5,
           },
@@ -136,7 +148,7 @@ const AuthScreens = () => {
         name="Register" 
         component={Register} 
         options={{
-          title: 'Register',
+          title: '',
           headerStyle: {
             backgroundColor: color5,
           },
@@ -149,7 +161,7 @@ const AuthScreens = () => {
         name="otp" 
         component={OTP}
         options={{
-          title: 'OTP',
+          title: '',
           headerStyle: {
             backgroundColor: color5,
           },
@@ -159,11 +171,6 @@ const AuthScreens = () => {
         }}
       />
       <Stack.Screen name="Splash" component={Splash} />
-      <Stack.Screen
-        name="ForgotPassword"
-        component={ForgotPassword}
-        options={{title: 'Forgot Password'}}
-      />
     </Stack.Navigator>
   )
 }
@@ -176,7 +183,7 @@ const EditScreens = () => {
         name="Update-Address"
         component={UpdateAddress}
         options={{
-          title: 'Update Your Address',
+          title: '',
           headerStyle: {
             backgroundColor: color5,
           },
@@ -189,7 +196,7 @@ const EditScreens = () => {
         name="Update-Bank"
         component={UpdateBankInfo}
         options={{
-          title: 'Update Bank info',
+          title: '',
           headerStyle: {
             backgroundColor: color5,
           },
@@ -203,6 +210,7 @@ const EditScreens = () => {
         component={UpdateProfile}
         options={{
           title: 'Update Your Profile',
+          title: '',
           headerStyle: {
             backgroundColor: color5,
           },
@@ -216,6 +224,9 @@ const EditScreens = () => {
         component={ProfileView}
         initialParams={{ 
           id: 200,
+        }}
+        options={{
+          title: '',
           headerStyle: {
             backgroundColor: color5,
           },
@@ -227,8 +238,11 @@ const EditScreens = () => {
       <Stack.Screen
         name="Plastic-Exchange"
         component={PlasticExchange}
-        initialParams={{ 
+        initialParams={{
           id: 200,
+        }}
+        options={{
+          title: '',
           headerStyle: {
             backgroundColor: color5,
           },
