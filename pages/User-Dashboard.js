@@ -3,7 +3,7 @@ import { StyleSheet, View, FlatList, ScrollView } from "react-native";
 import TransactionComponent from "../components/Transaction-Component";
 import Card from "../components/Card";
 import HeaderText from "../components/Header-Text";
-import { getUser, retrieveData, getUserExchanges, formatter } from "../helper";
+import { getUser, retrieveData, getUserExchanges, formatter, getAgentExchanges } from "../helper";
 
 const UserDashboard = ({ navigation }) => {
   const [user, setUser] = useState();
@@ -21,17 +21,32 @@ const UserDashboard = ({ navigation }) => {
       if (!err) {
         setUser(_user);
         // console.log(_user)
-        const [_exchanges, excErr] = await getUserExchanges(token, _user.username)
-        if (!excErr) {
-          // console.log(_exchanges[0])
-          setExchanges(_exchanges)
-          if (_exchanges.lenght > 1) {
-            const weight = _exchanges.map(e => e.weight).reduce((prev, current) => prev + current);
-            setWeight(weight)
+        if (_user.type == 'USER') {
+          const [_exchanges, excErr] = await getUserExchanges(token, _user.username)
+          if (!excErr) {
+            // console.log(_exchanges[0])
+            setExchanges(_exchanges)
+            if (_exchanges.lenght > 1) {
+              const weight = _exchanges.map(e => e.weight).reduce((prev, current) => prev + current);
+              setWeight(weight)
+            }
+            // const weightTotal
+            // console.log(_exchanges)
           }
-          // const weightTotal
-          // console.log(_exchanges)
+        } else if (_user.type == 'AGENT') {
+          const [_exchanges, excErr] = await getAgentExchanges(token, _user.username)
+          if (!excErr) {
+            // console.log(_exchanges[0])
+            setExchanges(_exchanges)
+            if (_exchanges.lenght > 1) {
+              const weight = _exchanges.map(e => e.weight).reduce((prev, current) => prev + current);
+              setWeight(weight)
+            }
+            // const weightTotal
+            // console.log(_exchanges)
+          }
         }
+       
       }
     }
 

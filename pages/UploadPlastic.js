@@ -4,14 +4,24 @@ import {View, StyleSheet, Text} from 'react-native';
 import DropdownComponent from '../components/Dropdown';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import { getPlastics, retrieveData, getUser, createPlasticExchange, editPlasticExchange } from '../helper';
+import { 
+  getPlastics, 
+  retrieveData, 
+  getUser, 
+  createPlasticExchange, 
+  editPlasticExchange,
+  getAgentUsers 
+} from '../helper';
 
 const UploadPlastic = ({ navigation }) => {
 
   const [plasts, setPlasts] = useState([])
-  const [user, setUser] = useState()
+  const [user, setUser] = useState([])
+  const [agent, setAgent] = useState()
   const [token, setToken] = useState()
   const [plastic, setPlastic] = useState()
+  const [agentUsers, setAgentUsers] = useState([])
+
   let plasticId;
   const [weight, setWeight] = useState()
 
@@ -37,8 +47,15 @@ const UploadPlastic = ({ navigation }) => {
             alert('User cannot upload Plastic')
             navigation.navigate('Profile-Screen', { screen: 'Dashboard'})
           }
+          if (userD.type == "AGENT") {
+            const [ _data, __err] = await getAgentUsers(_token, userD._id)
+            if (!__err) {
+              const _users = _data.map(d => ({ label: d.username, value: d._id }))
+              setAgentUsers(_users)
+            }
+          }
           setPlasts(_plastics);
-          setUser(userD)
+          setAgent(userD)
         }
       }
     }
@@ -61,16 +78,19 @@ const UploadPlastic = ({ navigation }) => {
         navigation.navigate("Profile-Screen", { screen: 'Dashboard'})
       }
     }
+
     const [xchange, err] = await createPlasticExchange({
       type: plastic, 
       weight: parseInt(weight),
-      customer: user._id,
-      agent: user.agent._id
+      customer: user,
+      agent: agent._id
     }, token);
 
     if (xchange) {
       console.log(xchange)
       navigation.navigate("Profile-Screen", { screen: 'Dashboard'})
+    } else {
+      console.log(err)
     }
   }
 
@@ -85,9 +105,12 @@ const UploadPlastic = ({ navigation }) => {
           placeholder="800"
         />
 
-        <Text style={styles.text}>Weight</Text>
+        <Text style={styles.text}>Plastic Type</Text>
         { plasts && (<DropdownComponent data={plasts} setValue={setPlastic} value={plastic} />) }
-        { user && user.type == 'USER'?<Text></Text> : <Button 
+
+        <Text style={styles.text}>Select Users</Text>
+        { user && (<DropdownComponent data={agentUsers} setValue={setUser} value={user} />) }
+        { agent && agent.type == 'USER'?<Text></Text> : <Button 
             label="UploadPlastic" 
             onPressHandler={() => uploadPlastic()}
           />

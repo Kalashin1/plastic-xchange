@@ -6,16 +6,17 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import DropdownComponent from '../components/Dropdown';
 import { baseUrl, retrieveData } from '../helper';
+import { lgaList } from '../states'
 
+const keys = Object.keys(lgaList).map(k => ({ label: k, value: k }))
 const states = [
-  {label: 'rivers', value: 'rivers'},
-  {label: 'lagos', value: 'lagos'},
+  ...keys
 ];
 
-const lgas = [
-  {label: 'ahoda', value: 'ahoda'},
-  {label: 'ogidi', value: 'ogidi'},
-];
+// const lgas = [
+//   {label: 'ahoda', value: 'ahoda'},
+//   {label: 'ogidi', value: 'ogidi'},
+// ];
 
 const UpdateAddress = ({navigation}) => {
 
@@ -23,6 +24,12 @@ const UpdateAddress = ({navigation}) => {
   const [zip, setZip] = useState('');
   const [state, setState] = useState('');
   const [lga, setLga] = useState('');
+  const [lgas, setLgas] = useState(lgaList.Abia.map(l => ({ label: l, value: l }) ))
+
+  function updateState(state) {
+    setState(state)
+    setLgas(lgaList[state].map(l => ({ label: l, value: l }) ))
+  }
 
   const updateUserAddress = async () => {
     const [id, err] = await retrieveData('userId');
@@ -81,7 +88,7 @@ const UpdateAddress = ({navigation}) => {
       <DropdownComponent 
         data={states} 
         value={state} 
-        setValue={setState} 
+        setValue={updateState} 
       />
 
       <Text style={styles.text}>LGA</Text>

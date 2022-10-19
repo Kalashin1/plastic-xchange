@@ -36,7 +36,7 @@ const tabNavigator = createBottomTabNavigator()
 const DashboardScreens = () => (
   <tabNavigator.Navigator>
     <tabNavigator.Screen 
-      name="Dashboard" 
+      name="Dashboard"
       component={UserDashboard}
       options={{ 
         tabBarIcon: ({ color }) => (<Icon name='home' color={color} size={20} />),

@@ -92,15 +92,15 @@ const Signin = ({navigation}) => {
             style={styles.linkText}
             onPress={() => { setType('AGENT') }}
           >
-            I am an { type.toLowerCase()}
+            I am an agent
           </Text>
         ) : 
         (
           <Text 
            style={styles.linkText}
-           onPress={() => { setType('AGENT') }}
+           onPress={() => { setType('USER') }}
          >
-          I am an { type.toLowerCase()}
+          I am a user
           </Text>
         )
       }

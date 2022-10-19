@@ -22,16 +22,10 @@ const OTP = ({navigation}) => {
       const [_user, err] = await getUser(_token);
 
       if (!err) {
-        console.log(_user)
-        if(_user.type == 'USER' && (!_user.agent)) {
-          alert('You have not been assigned an agent')
-          navigation.navigate('Profile-Screen', { screen: 'Dashboard'})
-        }
-        setUser(_user)
+        console.log(_user);
+        setUser(_user);
         setToken(_token)
       }
-
-      // console.log(err)
     }
 
     getData();

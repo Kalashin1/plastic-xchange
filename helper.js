@@ -170,6 +170,26 @@ export const getPlastic = async (token, id) => {
   }
 }
 
+export const getAgentUsers = async (token, id) => {
+  const res = await fetch(`${baseUrl}/agent/users/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  if (res.ok) {
+    const data = await res.json();
+
+    if (data.error) {
+      return [null, data.message, res.status]
+    } else {
+      return [data.data, null, res.status]
+    }
+  } else {
+    return [null, await res.json(), res.status]
+  }
+}
+
 export const getUser = async (token) => {
   const res = await fetch(`${baseUrl}/user/token/${token}`)
 
@@ -229,6 +249,25 @@ export const createPlasticExchange = async (payload, token) => {
 
 export const getUserExchanges = async (token, username) => {
   const res = await fetch(`${baseUrl}/user/projects/${username}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+    if (data.error) {
+      return [null, data.message]
+    } else {
+      return [data.data, null]
+    }
+  } else {
+    return [null, await res.json()]
+  }
+}
+
+export const getAgentExchanges = async (token, username) => {
+  const res = await fetch(`${baseUrl}/agent/projects/${username}`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
