@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, StyleSheet, TextInput, Text } from 'react-native';
-import { baseUrl, color5, storeUserData } from '../helper';
+import { baseUrl, color5, storeUserData, retrieveData } from '../helper';
 import HeaderText from '../components/Header-Text';
 import Button from '../components/Button';
 import Input from '../components/Input';
@@ -20,6 +20,20 @@ const Signin = ({navigation}) => {
   const [usernameError, setUsernameError] = useState(false)
 
   const [type, setType] = useState('USER')
+
+  let [token, setToken] = useState();
+  useEffect(() => {
+    const isOpened = async () => {
+      const [userToken, _] = await retrieveData('userToken')
+      if (userToken) {
+        // console.log(userToken)
+        navigation.navigate('Profile-Screen', { screen: 'Dashboard' });
+      } else {
+      }
+    }
+
+    isOpened()
+  })
 
   let userType = "USER";
 

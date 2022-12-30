@@ -47,7 +47,13 @@ const UpdateProfile = ({navigation}) => {
     const [res, _err] = await updateProfile(token, id, payload)
     if (!_err) {
       // console.log(res)
-      alert("Profile updated successfuly")
+      alert("Profile updated!")
+      if(!user.bankInfo) {
+        navigation.navigate('Edit-Screen', { screen: 'Update-Bank' });
+      }
+      if (!user.location) {
+        navigation.navigate('Edit-Screen', { screen: 'Update-Address' });
+      }
       navigation.navigate('Profile-Screen', { screen: 'Profile' });
     } else {
       console.log(_err)

@@ -105,17 +105,8 @@ const DashboardScreens = () => (
 )
 
 const AuthScreens = () => {
-  let initialRoute;
-  React.useEffect(() => {
-    const isOpened = async () => {
-      const [firstTime, _] = await retrieveData('firstTime')
-      if (firstTime && firstTime == 'Y') {
-        initialRoute = "Signin"
-      } 
-    }
-  })
   return (
-    <Stack.Navigator initialRouteName={initialRoute}>
+    <Stack.Navigator>
       <Stack.Screen 
         name="Signin" 
         component={Signin}
@@ -258,29 +249,16 @@ const EditScreens = () => {
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  let [initialRoute, setInitialRoute] = React.useState('Auth-Screen');
-  React.useEffect(() => {
-    const isOpened = async () => {
-      const [userToken, _] = await retrieveData('userToken')
-      if (userToken) {
-        setInitialRoute("Profile-Screen")
-      } else {
-        setInitialRoute("Auth-Screen")
-      }
-    }
-
-    isOpened()
-  })
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={initialRoute}>
+      <Stack.Navigator>
       <Stack.Screen 
           name="Auth-Screen" 
           component={AuthScreens}
           options={{
             tabBarStyle: { display: "none" },
             headerShown: false
-         }}
+          }}
         />
         <Stack.Screen 
           name='Profile-Screen' 
@@ -288,7 +266,7 @@ const App = () => {
           options={{
             tabBarStyle: { display: "none" },
             headerShown: false
-         }}
+          }}
         />
         
         <Stack.Screen 
@@ -297,7 +275,7 @@ const App = () => {
           options={{
             headerShown: false,
             tabBarStyle: { display: "none" },
-         }}
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

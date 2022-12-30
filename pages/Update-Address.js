@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, TextInput, Text} from 'react-native';
 import HeaderText from '../components/Header-Text';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import DropdownComponent from '../components/Dropdown';
-import { baseUrl, retrieveData } from '../helper';
+import { baseUrl, retrieveData, getUser } from '../helper';
 import { lgaList } from '../states'
 
 const keys = Object.keys(lgaList).map(k => ({ label: k, value: k }))
@@ -13,10 +13,6 @@ const states = [
   ...keys
 ];
 
-// const lgas = [
-//   {label: 'ahoda', value: 'ahoda'},
-//   {label: 'ogidi', value: 'ogidi'},
-// ];
 
 const UpdateAddress = ({navigation}) => {
 
@@ -26,39 +22,72 @@ const UpdateAddress = ({navigation}) => {
   const [lga, setLga] = useState('');
   const [lgas, setLgas] = useState(lgaList.Abia.map(l => ({ label: l, value: l }) ))
 
+  const [token, setToken] = useState()
+  const [id, setId] = useState('')
+  const [user, setUser] = useState();
+
   function updateState(state) {
     setState(state)
     setLgas(lgaList[state].map(l => ({ label: l, value: l }) ))
   }
 
+  useEffect(() => {
+    const getLoggedInUser = async () => {
+      const [_token, _] = await retrieveData('userToken');
+      if (!_) {
+        setToken(_token)
+      }
+      let id, _err;
+      [id, _err] = await retrieveData('userId');
+
+      if(!_err) {
+        setId(id);
+      }
+      let _user, err;
+
+      if (!_) {
+        [_user, err] = await getUser(_token);
+      } 
+
+      if (!err) {
+        setUser(_user);
+        console.log(_user)
+      }
+    }
+
+    getLoggedInUser()
+  }, [])
+
   const updateUserAddress = async () => {
-    const [id, err] = await retrieveData('userId');
-    const [token, tokenErr] = await retrieveData('userToken');
     // console.log(token, id)
-    if (!err && !tokenErr) {
-      const res = await fetch(`${baseUrl}/user/location/${id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ street, zip, state, lga, country: "Nigeria" })
-      })
-  
-      if (res.ok) {
-        const data = await res.json();
-  
-        if (data.error) {
-          // TODO: handle errors
-          // console.log(data.message);
+    const res = await fetch(`${baseUrl}/user/location/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ street, zip, state, lga, country: "Nigeria" })
+    })
+
+    if (res.ok) {
+      const data = await res.json();
+
+      if (data.error) {
+        // TODO: handle errors
+        alert('Oops something happened!');
+      } else {
+        // console.log(data.message);
+        alert(data.message)
+        if(user.bankInfo == null || undefined) {
+          navigation.navigate('Edit-Screen', { screen: 'Update-Bank' });
+        } else if (user.name == null || undefined) {
+          navigation.navigate('Edit-Screen', { screen: 'Update-Profile' });
         } else {
-          // console.log(data.message);
-          alert(data.message)
           navigation.navigate('Profile-Screen', { screen: 'Profile' })
         }
-      } else {
-        console.log(await res.json())
       }
+    } else {
+      console.log(await res.json())
     }
   }
 

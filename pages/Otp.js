@@ -36,21 +36,22 @@ const OTP = ({navigation}) => {
     const [data, err] = await verifyOTP(otp, username);
     if (!err){
       alert("verified successfully")
-      if (user.location) {
-        if (user.bankInfo) {
-          navigation.navigate('Profile-Screen', { screen: 'Dashboard' });
-        } else {
-          navigation.navigate('Edit-Screen', { screen: 'Update-Bank' });
-        }
-      } else {
+      if (!user.name) {
+        navigation.navigate('Edit-Screen', { screen: 'Update-Profile' });
+      }
+      if (!user.location) {
         navigation.navigate('Edit-Screen', { screen: 'Update-Address' });
       }
+      if (user.bankInfo) {
+        navigation.navigate('Edit-Screen', { screen: 'Update-Bank' });
+      }
+      navigation.navigate('Profile-Screen', { screen: 'Dashboard' });
     } else {
       setOtpError(true)
       console.log(err)
     }
   }
-2
+
   return (
     <View style={styles.container}>
       <HeaderText

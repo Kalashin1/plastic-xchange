@@ -4,7 +4,7 @@ import {View, StyleSheet, TextInput, Text } from 'react-native';
 import Input from '../components/Input';
 import HeaderText from '../components/Header-Text';
 import Button from '../components/Button';
-import { baseUrl, retrieveData } from '../helper'
+import { baseUrl, getUser, retrieveData } from '../helper'
 
 const data = [
   {label: 'User', value: 'USER'},
@@ -18,7 +18,8 @@ const UpdateBankInfo = ({navigation}) => {
 
   const updateBankInfo = async () => {
     const [id, err] = await retrieveData('userId');
-    const [token, setToken] = await retrieveData('userToken');
+    const [token, tokenErr] = await retrieveData('userToken');
+    const [user, useErr] = await getUser(token);
     if (token && id) {
       const res = await fetch(`${baseUrl}/user/bankInfo/${id}`, {
         method: 'POST',
@@ -38,7 +39,14 @@ const UpdateBankInfo = ({navigation}) => {
         } else {
           // console.log(data.message);
           alert(data.message)
-          navigation.navigate('Profile-Screen', { screen: 'Profile' });
+          if (user && (!user.location)){
+            navigation.navigate('Edit-Screen', { screen: 'Update-Address' });
+          } else if (user && (!user.name)) {
+            navigation.navigate('Edit-Screen', { screen: 'Update-Profile' });
+          } else {
+
+            navigation.navigate('Profile-Screen', { screen: 'Profile' });
+          }
         }
       }
     }

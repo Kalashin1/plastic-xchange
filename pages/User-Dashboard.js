@@ -1,17 +1,51 @@
-import React, { useState, useEffect} from "react";
-import { StyleSheet, View, FlatList, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, FlatList, Text, TouchableOpacity } from "react-native";
 import TransactionComponent from "../components/Transaction-Component";
 import Card from "../components/Card";
 import HeaderText from "../components/Header-Text";
-import { getUser, retrieveData, getUserExchanges, formatter, getAgentExchanges } from "../helper";
+import { getUser, retrieveData, getUserExchanges, getAgentExchanges } from "../helper";
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const UserDashboard = ({ navigation }) => {
+  const [loading, setLoading] = useState(true)
+
   const [user, setUser] = useState();
   const [exchanges, setExchanges] = useState();
   const [weight, setWeight] = useState()
 
   const viewExchange = (id) => {
     navigation.navigate("Edit-Screen", { params: { id }, screen: "Plastic-Exchange" });
+  }
+
+  async function updateExchanges(userType, token, username){
+    setLoading(true)
+    if (userType == 'USER') {
+      const [_exchanges, excErr] = await getUserExchanges(token, username)
+      if (!excErr) {
+        // console.log(_exchanges[0])
+        setExchanges(_exchanges)
+        if (_exchanges.lenght > 1) {
+          const weight = _exchanges.map(e => e.weight).reduce((prev, current) => prev + current);
+          setWeight(weight)
+        }
+        // const weightTotal
+        // console.log(_exchanges)
+      }
+      setLoading(false)
+    } else if (userType == 'AGENT') {
+      const [_exchanges, excErr] = await getAgentExchanges(token, username)
+      if (!excErr) {
+        // console.log(_exchanges[0])
+        setExchanges(_exchanges)
+        if (_exchanges.lenght > 1) {
+          const weight = _exchanges.map(e => e.weight).reduce((prev, current) => prev + current);
+          setWeight(weight)
+        }
+        // const weightTotal
+        // console.log(_exchanges)
+      }
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -21,32 +55,7 @@ const UserDashboard = ({ navigation }) => {
       if (!err) {
         setUser(_user);
         // console.log(_user)
-        if (_user.type == 'USER') {
-          const [_exchanges, excErr] = await getUserExchanges(token, _user.username)
-          if (!excErr) {
-            // console.log(_exchanges[0])
-            setExchanges(_exchanges)
-            if (_exchanges.lenght > 1) {
-              const weight = _exchanges.map(e => e.weight).reduce((prev, current) => prev + current);
-              setWeight(weight)
-            }
-            // const weightTotal
-            // console.log(_exchanges)
-          }
-        } else if (_user.type == 'AGENT') {
-          const [_exchanges, excErr] = await getAgentExchanges(token, _user.username)
-          if (!excErr) {
-            // console.log(_exchanges[0])
-            setExchanges(_exchanges)
-            if (_exchanges.lenght > 1) {
-              const weight = _exchanges.map(e => e.weight).reduce((prev, current) => prev + current);
-              setWeight(weight)
-            }
-            // const weightTotal
-            // console.log(_exchanges)
-          }
-        }
-       
+        await updateExchanges(_user.type, token, _user.username);
       }
     }
 
@@ -66,9 +75,14 @@ const UserDashboard = ({ navigation }) => {
     
       <View style={styles.textContainer}>
         <HeaderText text="Your Recent Transactions" />
+        <View style={styles.iconContainer}>
+          <TouchableOpacity onPress={() => {updateExchanges(user.type, token, user.username)}}>
+            <Icon name='rotate-right' size={25} />
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <FlatList 
+      { loading ? <Text style={styles.Loading}>Loading...</Text> :(<FlatList 
         data={exchanges}
         keyExtractor={item => item._id}
         renderItem={({ item}) => (
@@ -82,7 +96,7 @@ const UserDashboard = ({ navigation }) => {
             id={item._id}
           />
         )}
-      />
+      />)}
 
       {/* { exchanges && exchanges.map((item, i) => (
         
@@ -103,6 +117,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   textContainer: {
-    marginLeft: 20
+    marginHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: "space-between",
   },
+  iconContainer: {
+    marginVertical: 10
+  },
+  Loading: {
+    fontWeight: '300',
+    fontSize: 20,
+    margin: 30
+  }
 })
